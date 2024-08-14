@@ -8,6 +8,7 @@ import 'package:ticketify/pages/home_page/widgets/info_text.dart';
 import '../../bloc/featured_events/events_bloc.dart';
 import '../../bloc/featured_events/events_state.dart';
 
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -22,15 +23,16 @@ class HomePage extends StatelessWidget {
               child: Padding(
             padding: const EdgeInsets.all(16.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     infoText(),
                     const SizedBox(height: 5,),
                     const Text("One-stop ticketing & event management platform for online, hybrid and in-person events. We help you drive the right audience & make your event more successful.", style: TextStyle(fontSize: 25),),
-                    const SizedBox(height: 25,),
-                    homePageButton(),
-                    const SizedBox(height: 25,),
-                    buildNetworkImagePoster(imgURL: "https://konfhub.com/_next/static/images/thumbnail-2f2d0f72869f233e8632fa6a841d3a4d.webp"),
+                    ConstrainedBox(
+                        constraints: BoxConstraints(maxWidth: 600),
+                        child: Image.asset("assets/thumbnail.png",)),
+                const SizedBox(height: 25,),
+                    homePageButton(context),
                     const SizedBox(height: 25,),
                     infoText2(),
                     const SizedBox(height: 5,),

@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:ticketify/storage/storage_client.dart';
+import '../../storage/storage_client.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AuthBloc extends Bloc<AuthEvent,AuthState>{
   AuthBloc() : super(AuthInitial()){
@@ -48,7 +49,7 @@ class AuthBloc extends Bloc<AuthEvent,AuthState>{
       return emit(AuthSuccess(uid: "success"));
     }
     catch(e){
-      return emit(AuthFailure(err: "catch"));
+      return emit(AuthFailure(err: "Failure"));
   }
   }
   void _onLogOutRequested(
@@ -70,22 +71,32 @@ class AuthBloc extends Bloc<AuthEvent,AuthState>{
       ) async {
     emit(AuthLoading());
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if(kIsWeb){
+        FirebaseAuth auth = FirebaseAuth.instance;
+        GoogleAuthProvider authProvider = GoogleAuthProvider();
+        // User? user;
+        final UserCredential userCredential = await auth.signInWithPopup(authProvider);
+        // user = userCredential.user;
+        Storage storage = Storage();
+        storage.storeSignInData(userCredential);
+      }else {
+        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+        final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
 
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
 
-      Storage storage = Storage();
-      storage.storeSignInData(userCredential);
+        Storage storage = Storage();
+        storage.storeSignInData(userCredential);
+      }
 
       return emit(GoogleSignInSuccess());
-    } on Exception catch (e) {
-      print(e);
+    }catch (e) {
+      return emit(AuthFailure(err: "Failure"));
     }
   }
 }

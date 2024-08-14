@@ -66,29 +66,34 @@ class SplashHomePage extends StatelessWidget {
                     if (index == pages.length - 1) {
                       return Scaffold(
                         body: Center(
-                            child: CircleAvatar(
-                          backgroundColor: Colors.blueGrey[100],
-                          radius: 50,
-                          child: IconButton(
-                              onPressed: () {
+                            child: InkWell(
+                              radius: 50,
+                              hoverColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: (){
                                 context.read<AuthBloc>().add(SignINPageRequested());
                               },
-                              icon: const Icon(
-                                Icons.arrow_forward_ios,
-                              )),
-                        )),
+                              child: CircleAvatar(
+                          backgroundColor: Colors.blueGrey[100],
+                          radius: 50,
+                          child:const Icon(
+                                  Icons.arrow_forward_ios,
+                                ),
+                        ),
+                            )),
                       );
                     }
                     return pages[index];
                   },
                 ),
               ),
-              const SizedBox(height: 32),
+              // const SizedBox(height: 32),
               SmoothPageIndicator(
                 controller: _ctrl,
                 count: pages.length,
-                effect:
-                    const ExpandingDotsEffect(activeDotColor: Colors.blueGrey),
+                effect: const ExpandingDotsEffect(activeDotColor: Colors.blueGrey),
                 axisDirection: Axis.horizontal,
               ),
             ]);

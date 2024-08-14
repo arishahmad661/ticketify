@@ -1,16 +1,16 @@
 sealed class EventRegistrationEvent {}
 
 final class SubmitRequested extends EventRegistrationEvent {
-  final String eventID, email, name, profession;
+  final String eventID;
   SubmitRequested({
     required this.eventID,
-    required this.email,
-    required this.name,
-    required this.profession
 });
 }
 
-final class RegistratonCheck extends EventRegistrationEvent {}
+final class RegistrationCheck extends EventRegistrationEvent {
+  String eventID;
+  RegistrationCheck({required this.eventID});
+}
 
 
 

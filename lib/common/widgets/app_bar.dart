@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketify/common/widgets/text.dart';
 
@@ -10,7 +11,9 @@ AppBar buildAppBar() {
     ),
     actions: [
       IconButton(
-          onPressed: () {},
+          onPressed: () async {
+            await FirebaseAuth.instance.signOut();
+          },
           icon: const Icon(
             Icons.menu,
             color: Color.fromARGB(255, 87, 33, 72),

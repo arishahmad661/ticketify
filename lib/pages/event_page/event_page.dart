@@ -9,12 +9,14 @@ import 'package:ticketify/pages/event_page/widgets/event_location.dart';
 import 'package:ticketify/pages/event_page/widgets/online_medium.dart';
 import 'package:ticketify/pages/event_page/widgets/organisers_details.dart';
 import 'package:ticketify/pages/event_page/widgets/event_images.dart';
+import 'package:ticketify/pages/event_page/widgets/payment.dart';
 import 'package:ticketify/pages/event_page/widgets/registration_button.dart';
 import 'package:ticketify/pages/event_page/widgets/ticket.dart';
 import 'package:ticketify/common/widgets/text.dart';
 import 'package:ticketify/models/featured_events_model.dart';
 import '../../common/widgets/app_bar.dart';
-import 'widgets/event_registration_widget.dart';
+import '../ticket_page/ticket_page.dart';
+import 'widgets/event_registration_submit_button.dart';
 
 class EventPage extends StatefulWidget {
   FeaturedEventModel featuredEvent;
@@ -25,6 +27,7 @@ class EventPage extends StatefulWidget {
 }
 
 class _EventPageState extends State<EventPage> {
+
   String formatDateWithSuffix(DateTime date) {
     var day = DateFormat('d').format(date);
     String suffix = 'th';
@@ -50,31 +53,12 @@ class _EventPageState extends State<EventPage> {
     return "$datePart, $timePart IST";
   }
 
-  void showEventRegistrationSheet(BuildContext context, String eventID) {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      context: context,
-      builder: (context) =>
-          Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery
-                  .of(context)
-                  .viewInsets
-                  .bottom, // Adjust for keyboard
-            ),
-            child: SingleChildScrollView(child: EventRegistrationWidget(
-                eventID: eventID, eventDetails: widget.featuredEvent)),
-          ),
-    );
-  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    BlocProvider.of<EventRegistrationBloc>(context).add(RegistratonCheck());
+    BlocProvider.of<EventRegistrationBloc>(context).add(RegistrationCheck(eventID: widget.featuredEvent.eventId));
   }
   @override
   Widget build(BuildContext context) {
@@ -84,6 +68,10 @@ class _EventPageState extends State<EventPage> {
 
     return BlocConsumer<EventRegistrationBloc, EventRegistrationState>(
       listener: (context, state) {
+        if(state is SubmitSuccessful){
+          Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => TicketPage(qrData: state.qrData, featuredEventModel: widget.featuredEvent,),));
+        }
       },
       builder: (context, state){
         return Scaffold(
@@ -110,13 +98,17 @@ class _EventPageState extends State<EventPage> {
                   else
                     onlineMedium(),
                   const SizedBox(height: 24,),
-                  registerButton(
-                    context: context,
-                    eventID: widget.featuredEvent.eventId,
-                    onRegister: (BuildContext context, String eventID) {
-                      showEventRegistrationSheet(context, eventID);
-                    },
-                  ),
+                  // if(widget.featuredEvent.cost != 0) Payment(),
+
+        if(state is InitialState)
+        Align(
+        alignment: Alignment.center,
+        child: widget.featuredEvent.cost != 0 ? Payment(eventDetails: widget.featuredEvent,) : submitButton(widget.featuredEvent, context)
+        )
+        else if(state is CheckSuccessful) buildDownloadTicketButton(context: context, qrData: state.qrData, eventDetails: widget.featuredEvent)
+        else const Align(alignment: Alignment.center, child: CircularProgressIndicator(),),
+
+
                   const SizedBox(height: 24,),
                   Align(
                       alignment: Alignment.center,
@@ -129,20 +121,20 @@ class _EventPageState extends State<EventPage> {
                   const SizedBox(height: 8,),
                   Text(widget.featuredEvent.description,
                     style: textStyle(fontSize: 16.0),),
-                  const SizedBox(height: 24,),
-                  Text("Ticket", style: textStyle(fontSize: 32.0,
+                  if(state is InitialState) const SizedBox(height: 24,),
+                  if(state is InitialState) Text("Ticket", style: textStyle(fontSize: 32.0,
                       color: const Color.fromARGB(255, 87, 33, 72),
                       fontWeight: FontWeight.bold),),
                   const SizedBox(height: 8,),
-                  ticket(
+                  if(state is InitialState) ticket(
                     desc: "Available Till: $registrationDeadlineDateTime",
                     title: widget.featuredEvent.name,
                     context: context,
                     eventID: widget.featuredEvent.eventId,
-                    onRegister: (BuildContext context, String eventID) {
-                      showEventRegistrationSheet(context, eventID);
-                    },
-                  ),
+                    footerText: "Swipe to register",
+                  )
+                  else if(state is LoadingState) const Align(alignment: Alignment.center, child: CircularProgressIndicator(),),
+
                   const SizedBox(height: 24,),
                   Text("About the Organisers", style: textStyle(fontSize: 32.0,
                       color: const Color.fromARGB(255, 87, 33, 72),
