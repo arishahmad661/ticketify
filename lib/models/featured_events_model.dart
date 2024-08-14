@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FeaturedEventModel {
-  final String id;
   final String eventId;
   final int cost;
   final String description;
@@ -17,7 +16,6 @@ class FeaturedEventModel {
 
   FeaturedEventModel({
     required this.registrationDeadline,
-    required this.id,
     required this.eventId,
     required this.cost,
     required this.description,
@@ -50,7 +48,6 @@ class FeaturedEventModel {
     List<String>? organiserDescription
   }) {
     return FeaturedEventModel(
-      id: id ?? this.id,
       eventId: eventId ?? this.eventId,
       cost: cost ?? this.cost,
       description: description ?? this.description,
@@ -71,7 +68,6 @@ class FeaturedEventModel {
   factory FeaturedEventModel.fromJson(DocumentSnapshot doc) {
     final json = doc.data() as Map<String, dynamic>;
     return FeaturedEventModel(
-      id: doc.id,
       eventId: json["eventID"] ?? '',
       cost: json["cost"] ?? 0,
       description: json["description"] ?? '',

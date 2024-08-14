@@ -32,13 +32,12 @@ class StorageModel {
   }
 
   factory StorageModel.fromJson(UserCredential userCredential){
-    Map<String, dynamic> json = userCredential as Map<String, dynamic>;
     return StorageModel(
-      displayName: json["displayName"],
-      userId: json["userID"],
-      email: json["email"],
-      phoneNumber: json["phoneNumber"],
-      photoUrl: json["photoURL"],
+      displayName: userCredential.user!.displayName.toString(),
+      userId: userCredential.user!.uid.toString(),
+      email: userCredential.user!.email.toString(),
+      phoneNumber: userCredential.user!.phoneNumber.toString(),
+      photoUrl: userCredential.user!.photoURL.toString(),
     );
   }
 

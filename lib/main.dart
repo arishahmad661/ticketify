@@ -5,10 +5,11 @@ import 'package:ticketify/bloc/featured_events/events_bloc.dart';
 import 'package:ticketify/pages/login_page/sign_in.dart';
 import 'bloc/event_registration/event_registration_bloc.dart';
 import 'bloc/login/auth_bloc.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 

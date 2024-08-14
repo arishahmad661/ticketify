@@ -10,7 +10,7 @@ import 'package:ticketify/storage/storage_client.dart';
 class EventRegistrationBloc extends Bloc<EventRegistrationEvent, EventRegistrationState>{
   EventRegistrationBloc(): super(InitialState()){
     on<SubmitRequested>(submitRequested);
-    on<RegistratonCheck>(registrationCheck as EventHandler<RegistratonCheck, EventRegistrationState>);
+    on<RegistrationCheck>(registrationCheck);
   }
   Future<void> submitRequested(
       SubmitRequested event,
@@ -19,18 +19,21 @@ class EventRegistrationBloc extends Bloc<EventRegistrationEvent, EventRegistrati
     emit(LoadingState());
     try {
       Storage storage = Storage();
-      String? userID = await storage.fetchUserId();
-      if (userID == null) {
-        emit(SubmitError(e: 'Try logging out then logging in'));
+      String userID = await storage.fetchUserId();
+      String userName = await storage.fetchUserName();
+      String userEmail = await storage.fetchUserEmail();
+      String userPhoneNumber = await storage.fetchUserPhoneNumber();
+      if (userID == "" || userName == "" || userEmail == "" || userPhoneNumber == "") {
+        emit(SubmitError(e: 'Try logging out then logging in.'));
       }
       AttendeesModel attendeesModel = AttendeesModel(
-          userEmail: event.email,
-          userId: event.eventID,
-          userName: event.name,
+          userEmail: userEmail,
+          userId: userID,
+          userName: userName,
           isCheckedIn: false,
-          profession: event.profession
+          userPhoneNumber: userPhoneNumber,
       );
-      await FirebaseFirestore.instance.collection("events")
+      await FirebaseFirestore.instance.collection("featured_events")
           .doc(event.eventID)
           .collection("attendees")
           .add(
@@ -42,10 +45,29 @@ class EventRegistrationBloc extends Bloc<EventRegistrationEvent, EventRegistrati
     }
   }
 
-  registrationCheck(
-      RegistratonCheck event,
-      Emitter<EventHandler> emit,
-      ){
-
-  }
+  Future<void> registrationCheck(
+      RegistrationCheck event,
+      Emitter<EventRegistrationState> emit,
+      )async {
+    emit(LoadingState());
+    try{
+      Storage storage = Storage();
+      String? userID = await storage.fetchUserId();
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection("featured_events")
+          .doc(event.eventID)
+          .collection("attendees")
+          .where('userID', isEqualTo: userID)
+          .limit(1)
+          .get();
+      print(querySnapshot.docs.isEmpty);
+      if(querySnapshot.docs.isEmpty){
+        emit(InitialState());
+      }
+      else emit(CheckSuccessful(qrData: jsonEncode(AttendeesModel.fromJson(querySnapshot.docs[0]))));
+    }catch(e){
+      emit(SubmitError(e: e.toString()));
+      print(e);
+    }
+      }
 }

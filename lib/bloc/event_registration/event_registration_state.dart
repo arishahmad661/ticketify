@@ -13,3 +13,8 @@ final class SubmitSuccessful extends EventRegistrationState {
   String qrData;
   SubmitSuccessful({required this.qrData});
 }
+
+final class CheckSuccessful extends EventRegistrationState {
+  String qrData;
+  CheckSuccessful({required this.qrData});
+}

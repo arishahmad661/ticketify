@@ -3,13 +3,11 @@ import 'package:swipe_to/swipe_to.dart';
 import 'package:ticketify/common/widgets/text.dart';
 import '../../../common/widgets/ticket_clipper.dart';
 
-Widget ticket({required title, required desc, required BuildContext context, required eventID, required Function(BuildContext, String) onRegister}) {
+Widget ticket({required footerText ,required title, required desc, required BuildContext context, required eventID}) {
   return SwipeTo(
     onLeftSwipe: (details){
-      onRegister(context, eventID);
     },
     onRightSwipe: (details){
-      onRegister(context, eventID);
     },
     child: SizedBox(
       height: 180,
@@ -35,7 +33,7 @@ Widget ticket({required title, required desc, required BuildContext context, req
                     Expanded(
                       child: Align(
                         alignment: Alignment.bottomRight,
-                          child: Text( "Swipe to register", style:  textStyle(fontStyle: FontStyle.italic, color: Colors.black54)
+                          child: Text(footerText, style:  textStyle(fontStyle: FontStyle.italic, color: Colors.black54)
                           )
                       ),
                     )
