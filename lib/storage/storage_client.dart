@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ticketify/models/storage_model.dart';
+import 'package:ticketify/data/models/storage_model.dart';
 
 class Storage{
   Future<void> storeSignInData(UserCredential userCredential) async {
@@ -14,8 +14,8 @@ class Storage{
   }
   Future<String> fetchUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final userID = prefs.getString('userID') ?? "";
-    return userID;
+    final userID = prefs.getString('userID') ??  "";
+    return userID ;
   }
   Future<String> fetchUserName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
