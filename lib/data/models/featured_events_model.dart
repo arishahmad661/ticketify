@@ -32,12 +32,12 @@ class FeaturedEventModel {
   });
 
   FeaturedEventModel copyWith({
-    String? id,
     String? eventId,
     int? cost,
     String? description,
-    DateTime? fromTime, registrationDeadline,
+    DateTime? fromTime,
     DateTime? toTime,
+    DateTime? registrationDeadline,
     bool? isOffline,
     List<String>? images,
     String? location,
@@ -45,7 +45,7 @@ class FeaturedEventModel {
     String? name,
     List<String>? organisersName,
     List<String>? organisersPic,
-    List<String>? organiserDescription
+    List<String>? organiserDescription,
   }) {
     return FeaturedEventModel(
       eventId: eventId ?? this.eventId,
@@ -65,14 +65,13 @@ class FeaturedEventModel {
     );
   }
 
-  factory FeaturedEventModel.fromJson(DocumentSnapshot doc) {
-    final json = doc.data() as Map<String, dynamic>;
+  factory FeaturedEventModel.fromJson(Map<String, dynamic> json) {
     return FeaturedEventModel(
-      eventId: json["eventID"] ?? '',
+      eventId: json["eventId"] ?? '',
       cost: json["cost"] ?? 0,
       description: json["description"] ?? '',
-      fromTime: (json['fromTime'] as Timestamp).toDate(),
-      toTime: (json['toTime'] as Timestamp).toDate(),
+      fromTime: _parseDate(json['fromTime']),
+      toTime: _parseDate(json['toTime']),
       isOffline: json["isOffline"] ?? false,
       images: json["images"] == null ? [] : List<String>.from(json["images"].map((x) => x)),
       location: json["location"] ?? '',
@@ -81,16 +80,20 @@ class FeaturedEventModel {
       organisersName: json["organisersName"] == null ? [] : List<String>.from(json["organisersName"].map((x) => x)),
       organisersPic: json["organisersPic"] == null ? [] : List<String>.from(json["organisersPic"].map((x) => x)),
       organiserDescription: json["organiserDescription"] == null ? [] : List<String>.from(json["organiserDescription"].map((x) => x)),
-      registrationDeadline: (json['registrationDeadline'] as Timestamp).toDate(),
+      registrationDeadline: json['registrationDeadline'] != null
+          ? (json['registrationDeadline'] is Timestamp
+          ? (json['registrationDeadline'] as Timestamp).toDate()
+          : DateTime.parse(json['registrationDeadline']))
+          : DateTime.now(), // Default to current date if missing
     );
   }
 
   Map<String, dynamic> toJson() => {
-    "eventID": eventId,
+    "eventId": eventId,
     "cost": cost,
     "description": description,
-    "fromTime": fromTime,
-    "toTime": toTime,
+    "fromTime": fromTime.toIso8601String(),
+    "toTime": toTime.toIso8601String(),
     "isOffline": isOffline,
     "images": images,
     "location": location,
@@ -99,6 +102,16 @@ class FeaturedEventModel {
     "organisersName": organisersName,
     "organisersPic": organisersPic,
     "organiserDescription": organiserDescription,
-    "registrationDeadline": registrationDeadline,
+    "registrationDeadline": Timestamp.fromDate(registrationDeadline),
   };
+
+  static DateTime _parseDate(dynamic date) {
+    if (date is Timestamp) {
+      return date.toDate();
+    } else if (date is String) {
+      return DateTime.parse(date);
+    } else {
+      throw Exception('Unsupported date format');
+    }
+  }
 }
