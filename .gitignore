@@ -41,6 +41,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/server/ticketify404-firebase-adminsdk-s6ezn-768d843a87.json
 
 /lib/common/secret/mail_data
 /lib/firebase_options.dart
