@@ -29,12 +29,12 @@ func PostRegistrationCheck(c *gin.Context) {
 	var attendeesCheck models.AttendeesCheck
 
 	if err := c.BindJSON(&attendeesCheck); err != nil {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err})
 	}
 
 	events, err := services.RegistrationCheck(ctx, client, attendeesCheck)
 	if err != nil {
-		if err.Error() == "Attendee not found" {
+		if err.Error() == "attendee not found" {
 			utils.HandleError(c, http.StatusNotFound, err)
 			return
 		}
@@ -43,4 +43,24 @@ func PostRegistrationCheck(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, events)
+}
+
+func PostRegisterUser(c *gin.Context) {
+	ctx := context.Background()
+	client := config.GetFirestoreClient()
+
+	var eventRegistration models.EventRegistration
+
+	if err := c.BindJSON(&eventRegistration); err != nil {
+		utils.HandleError(c, http.StatusBadRequest, err)
+		return
+	}
+
+	err := services.RegisterUser(ctx, client, eventRegistration)
+
+	if err != nil {
+		utils.HandleError(c, http.StatusInternalServerError, err)
+	}
+	c.IndentedJSON(http.StatusOK, eventRegistration.Attendee)
+
 }

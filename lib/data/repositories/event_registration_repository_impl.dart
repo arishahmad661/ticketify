@@ -8,6 +8,11 @@ class EventRegistrationImpl implements EventRegistrationRepository{
 
 
   @override
+  Future<ApiResponse> eventRegistrationCheck(String eventID) {
+    return eventRegistrationDataSource.eventRegistrationCheck(eventID);
+  }
+
+  @override
   Future<ApiResponse> eventRegistration(String eventID) {
-    return eventRegistrationDataSource.registerUser(eventID);
+    return eventRegistrationDataSource.eventRegistration(eventID);
   }}

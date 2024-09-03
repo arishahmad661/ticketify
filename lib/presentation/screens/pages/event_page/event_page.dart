@@ -111,9 +111,9 @@ class _EventPageState extends State<EventPage> {
 
 
                   const SizedBox(height: 24,),
-                  Align(
+                  widget.featuredEvent.images.isEmpty || widget.featuredEvent.images[0] == "" ? Align(
                       alignment: Alignment.center,
-                      child: eventImages(imageURL: widget.featuredEvent.images, context: context)),
+                      child: eventImages(imageURL: widget.featuredEvent.images, context: context)) : SizedBox(),
                   const SizedBox(height: 24,),
                   Text("About the Event", style: textStyle(fontSize: 32.0,
                       color: const Color.fromARGB(255, 87, 33, 72),

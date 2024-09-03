@@ -10,6 +10,7 @@ func SetupRouter() *gin.Engine {
 	{
 		api.GET("/featured-events", GetFeaturedEvents)
 		api.POST("/registration-check", PostRegistrationCheck)
+		api.POST("/register-user", PostRegisterUser)
 	}
 	return r
 }
