@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketify/blocs/event_registration/event_registration_bloc.dart';
+import 'package:ticketify/domain/usecases/event_registration.dart';
 import 'package:ticketify/domain/usecases/fetch_events.dart';
 import 'package:ticketify/presentation/screens/pages/login_page/sign_in.dart';
 import 'blocs/authentication/auth_bloc.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
           create: (context) => FeaturedEventsBloc(fetchEvents: di.getIt<FetchEvents>()),
         ),
         BlocProvider(
-          create: (context) => EventRegistrationBloc(),
+          create: (context) => EventRegistrationBloc(eventRegistration: di.getIt<EventRegistration>()),
         )
       ],
       child: MaterialApp(

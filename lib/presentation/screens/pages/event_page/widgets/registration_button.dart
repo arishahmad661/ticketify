@@ -13,7 +13,6 @@ Widget registerButton({required BuildContext context, required String eventID, r
         backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255,253,177,75)),
         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
         minimumSize: MaterialStateProperty.all(const Size(160, 50)),
-
       ),
       child: const Text("Register", style: TextStyle(color: Color.fromARGB(255,87,33,72), fontSize: 16),),
     ),

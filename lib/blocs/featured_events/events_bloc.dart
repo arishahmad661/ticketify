@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ticketify/data/models/api_response.dart';
 import 'package:ticketify/data/models/featured_events_model.dart';
 import 'package:ticketify/domain/usecases/fetch_events.dart';
 import 'events_event.dart';
@@ -14,17 +15,15 @@ class FeaturedEventsBloc extends Bloc<FeaturedsEventsEvent, FeaturedEventState>{
       EventRequested event,
       Emitter<FeaturedEventState> emit,
       ) async {
-    // FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
     try{
       emit(EventLoading());
-      final List<FeaturedEventModel> eventModelList = await fetchEvents.execute();
-      return emit(EventResponseSuccess(featuredEvents: eventModelList));
-
-      // final QuerySnapshot snapshot = await _firebaseFirestore.collection('featured_events').get();
-      // final List<FeaturedEventModel> featuredEvents = snapshot.docs.map((e) => FeaturedEventModel.fromJson(e)).toList().reversed.toList();
-      // return emit(EventResponseSuccess(featuredEvents: featuredEvents));
+      final ApiResponse apiResponse = await fetchEvents.execute();
+      if (apiResponse.code == 200){
+        return emit(EventResponseSuccess(featuredEvents: apiResponse.data));
+      }else{
+        return emit(EventResponseFailure(e: apiResponse.error));
+      }
     }catch(e){
-      print(e);
       return emit(EventResponseFailure(e: e.toString()));
     }
   }

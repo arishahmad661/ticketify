@@ -1,4 +1,4 @@
-import 'package:ticketify/data/models/featured_events_model.dart';
+import 'package:ticketify/data/models/api_response.dart';
 import '../repositories/event_repository.dart';
 
 class FetchEvents {
@@ -6,7 +6,7 @@ class FetchEvents {
 
   FetchEvents(this.repository);
 
-  Future<List<FeaturedEventModel>> execute() async {
+  Future<ApiResponse> execute() async {
     return await repository.getEvents();
   }
 }

@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ticketify/presentation/widgets/build_network_image.dart';
 
 Widget eventImages({required List<String> imageURL, required BuildContext context}) {
-  if (imageURL.isEmpty) {
-    return const Center(
-      child: Text('No images available'),
-    );
+  if (imageURL.isEmpty || imageURL[0] == "") {
+    return const Center(child: Icon(Icons.error));
   }
 
   return SizedBox(
