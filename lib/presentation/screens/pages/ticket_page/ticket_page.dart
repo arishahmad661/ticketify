@@ -109,7 +109,7 @@ class TicketPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       QrImageView(
-                        data: qrData,
+                        data: qrData != null && qrData.isNotEmpty ? qrData : 'QR Data is missing',
                         version: QrVersions.auto,
                         size: 160,
                         foregroundColor: const Color.fromARGB(255, 87, 33, 72),

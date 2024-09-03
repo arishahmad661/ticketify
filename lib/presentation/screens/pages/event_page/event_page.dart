@@ -106,14 +106,14 @@ class _EventPageState extends State<EventPage> {
         child: widget.featuredEvent.cost != 0 ? Payment(eventDetails: widget.featuredEvent,) : submitButton(widget.featuredEvent, context)
         )
         else if(state is CheckSuccessful) buildDownloadTicketButton(context: context, qrData: state.qrData, eventDetails: widget.featuredEvent)
+          else if (state is SubmitError) Center(child: Text(state.e))
         else const Align(alignment: Alignment.center, child: CircularProgressIndicator(),),
 
 
                   const SizedBox(height: 24,),
                   Align(
                       alignment: Alignment.center,
-                      child: eventImages(
-                          imageURL: widget.featuredEvent.images, context: context)),
+                      child: eventImages(imageURL: widget.featuredEvent.images, context: context)),
                   const SizedBox(height: 24,),
                   Text("About the Event", style: textStyle(fontSize: 32.0,
                       color: const Color.fromARGB(255, 87, 33, 72),

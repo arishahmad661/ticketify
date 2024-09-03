@@ -2,12 +2,15 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketify/blocs/event_registration/event_registration_event.dart';
+import 'package:ticketify/data/models/api_response.dart';
 import 'package:ticketify/data/models/attendes_model.dart';
+import 'package:ticketify/domain/usecases/event_registration.dart';
 import 'package:ticketify/storage/storage_client.dart';
 import 'event_registration_state.dart';
 
 class EventRegistrationBloc extends Bloc<EventRegistrationEvent, EventRegistrationState>{
-  EventRegistrationBloc(): super(InitialState()){
+  final EventRegistration eventRegistration;
+  EventRegistrationBloc({required this.eventRegistration}): super(InitialState()){
     on<SubmitRequested>(submitRequested);
     on<RegistrationCheck>(registrationCheck);
   }
@@ -50,22 +53,20 @@ class EventRegistrationBloc extends Bloc<EventRegistrationEvent, EventRegistrati
       )async {
     emit(LoadingState());
     try{
-      Storage storage = Storage();
-      String? userID = await storage.fetchUserId();
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection("featured_events")
-          .doc(event.eventID)
-          .collection("attendees")
-          .where('userID', isEqualTo: userID)
-          .limit(1)
-          .get();
-      if(querySnapshot.docs.isEmpty){
-        emit(InitialState());
+      if (event.eventID.isEmpty || event.eventID == ""){
+        emit(SubmitError(e: "Event id not found."));
       }
-      else emit(CheckSuccessful(qrData: jsonEncode(AttendeesModel.fromJson(querySnapshot.docs[0]))));
+      final ApiResponse data = await eventRegistration.registerUser(event.eventID);
+      if(data.code == 404){
+        emit(InitialState());
+      }else if(data.code == 200){
+        emit(CheckSuccessful(qrData: data.data.toString()));
+      }
+      else {
+        emit(SubmitError(e: data.code.toString()));
+      }
     }catch(e){
       emit(SubmitError(e: e.toString()));
-      print(e);
     }
       }
 }

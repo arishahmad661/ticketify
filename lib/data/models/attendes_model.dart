@@ -31,8 +31,7 @@ class AttendeesModel {
     );
   }
 
-  factory AttendeesModel.fromJson(DocumentSnapshot doc){
-    final json = doc.data() as Map<String, dynamic>;
+  factory AttendeesModel.fromJson(Map<String, dynamic> json){
     return AttendeesModel(
       userEmail: json["userEmail"],
       userId: json["userID"],

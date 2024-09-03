@@ -1,5 +1,5 @@
-import '../../data/models/featured_events_model.dart';
+import 'package:ticketify/data/models/api_response.dart';
 
 abstract class EventRepository {
-  Future<List<FeaturedEventModel>> getEvents();
+  Future<ApiResponse> getEvents();
 }
