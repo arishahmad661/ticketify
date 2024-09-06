@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketify/data/models/api_response.dart';
-import 'package:ticketify/data/models/featured_events_model.dart';
 import 'package:ticketify/domain/usecases/fetch_events.dart';
 import 'events_event.dart';
 import 'events_state.dart';

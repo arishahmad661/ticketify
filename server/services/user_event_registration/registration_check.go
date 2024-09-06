@@ -1,4 +1,4 @@
-package services
+package user_event_registration
 
 import (
 	"cloud.google.com/go/firestore"

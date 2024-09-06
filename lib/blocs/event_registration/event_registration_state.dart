@@ -1,3 +1,5 @@
+import 'package:ticketify/data/models/response_order_id.dart';
+
 sealed class EventRegistrationState {}
 
 class InitialState extends EventRegistrationState {}
@@ -17,4 +19,21 @@ final class SubmitSuccessful extends EventRegistrationState {
 final class CheckSuccessful extends EventRegistrationState {
   String qrData;
   CheckSuccessful({required this.qrData});
+}
+
+final class ResponseOrderID extends EventRegistrationState {
+  ResponseOrderIDModel responseOrderID;
+  ResponseOrderID({required this.responseOrderID});
+}
+
+final class PaymentSuccess extends EventRegistrationState{
+
+}
+
+final class PaymentError extends EventRegistrationState{
+
+}
+
+final class ExternalWallet extends EventRegistrationState{
+
 }
