@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:ticketify/blocs/event_registration/event_registration_bloc.dart';
 import 'package:ticketify/domain/usecases/event_registration.dart';
 import 'package:ticketify/domain/usecases/fetch_events.dart';
@@ -14,6 +15,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   di.setup();
+  await dotenv.load(fileName: 'server/.env');
   runApp(const MyApp());
 }
 

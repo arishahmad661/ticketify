@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:ticketify/data/models/api_response.dart';
 import 'package:http/http.dart' as http;
 import 'package:ticketify/data/models/attendes_model.dart';
+import 'package:ticketify/data/models/order_id_request.dart';
+import 'package:ticketify/data/models/payment_success_response_model.dart';
 import 'package:ticketify/storage/storage_client.dart';
 import 'package:ticketify/utils/url.dart';
 
@@ -82,6 +84,49 @@ class EventRegistrationDataSource{
       return ApiResponse(error: e.toString());
     }
 
+  }
+
+  Future<ApiResponse> createOrderID(OrderIDRequest orderIDRequest) async {
+    try{
+      final response = await client.post(
+          Uri.parse('${baseURL}/api/v1/create-order'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, dynamic>{
+            'currency': orderIDRequest.currency,
+            'amount': orderIDRequest.amount
+          })
+      );
+      if(response.statusCode == 200){
+        return ApiResponse(code: 200, data: response.body);
+      }else{
+        return ApiResponse(code: response.statusCode, error: response.body);
+      }
+    }catch(e){
+      return ApiResponse(data: e);
+    }
+  }
+
+  Future<ApiResponse> verifyPayment(PaymentSuccessResponseModel paymentSuccessResponseModel) async {
+    try{
+      final response = await client.post(
+          Uri.parse('${baseURL}/api/v1/verify-payment'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(paymentSuccessResponseModel.toJson())
+      );
+      if(response.statusCode == 200){
+        return ApiResponse(code: 200, data: response.body);
+      }else{
+        print(response.body);
+        return ApiResponse(code: response.statusCode, error: response.body);
+      }
+    }catch(e){
+      print(e.toString());
+      return ApiResponse(data: e);
+    }
   }
 
 }

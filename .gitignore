@@ -46,3 +46,6 @@ app.*.map.json
 /lib/common/secret/mail_data
 /lib/firebase_options.dart
 /android/app/google-services.json
+.env
+server/.env
+

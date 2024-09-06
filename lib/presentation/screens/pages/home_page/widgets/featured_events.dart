@@ -57,7 +57,9 @@ class _FeaturedEventsState extends State<FeaturedEvents> {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else{
+          } else if(state is EventResponseFailure){
+            return Text(state.e.toString());
+        }else{
             return Container();
           }
         }
