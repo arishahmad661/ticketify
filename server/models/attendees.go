@@ -6,4 +6,6 @@ type Attendees struct {
 	UserName        string `json:"userName"`
 	IsCheckedIn     bool   `json:"isCheckedIn"`
 	UserPhoneNumber string `json:"userPhoneNumber"`
+	OrderId         string `json:"orderId"`
+	PaymentId       string `json:"paymentId"`
 }

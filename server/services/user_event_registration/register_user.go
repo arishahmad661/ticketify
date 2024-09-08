@@ -13,6 +13,8 @@ func RegisterUser(ctx context.Context, client *firestore.Client, eventRegistrati
 		"userName":        eventRegistration.Attendee.UserName,
 		"isCheckedIn":     eventRegistration.Attendee.IsCheckedIn,
 		"userPhoneNumber": eventRegistration.Attendee.UserPhoneNumber,
+		"orderId":         eventRegistration.Attendee.OrderId,
+		"paymentId":       eventRegistration.Attendee.PaymentId,
 	}
 	attendeesCollection := client.Collection("featured_events").Doc(eventRegistration.EventID).Collection("attendees")
 

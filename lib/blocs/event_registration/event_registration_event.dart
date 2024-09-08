@@ -5,8 +5,12 @@ sealed class EventRegistrationEvent {}
 
 final class SubmitRequested extends EventRegistrationEvent {
   final String eventID;
+  final String? orderID;
+  final String? paymentId;
   SubmitRequested({
     required this.eventID,
+    this.paymentId,
+    this.orderID
 });
 }
 

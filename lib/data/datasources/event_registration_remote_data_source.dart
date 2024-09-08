@@ -8,6 +8,7 @@ import 'package:ticketify/storage/storage_client.dart';
 import 'package:ticketify/utils/url.dart';
 
 class EventRegistrationDataSource{
+
   final http.Client client;
   EventRegistrationDataSource(this.client);
 
@@ -42,7 +43,7 @@ class EventRegistrationDataSource{
 
   }
 
-  Future<ApiResponse> eventRegistration(String eventID) async {
+  Future<ApiResponse> eventRegistration(String eventID, String? orderId, String? paymentId) async {
     try{
       Storage storage = Storage();
       String userID = await storage.fetchUserId();
@@ -59,6 +60,8 @@ class EventRegistrationDataSource{
         userName: userName,
         isCheckedIn: false,
         userPhoneNumber: userPhoneNumber,
+        orderId: orderId,
+        paymentId: paymentId
       );
 
       final response = await client.post(
@@ -128,5 +131,4 @@ class EventRegistrationDataSource{
       return ApiResponse(data: e);
     }
   }
-
 }
