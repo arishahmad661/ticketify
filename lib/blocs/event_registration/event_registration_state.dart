@@ -27,7 +27,9 @@ final class ResponseOrderID extends EventRegistrationState {
 }
 
 final class PaymentSuccess extends EventRegistrationState{
-
+  final String? orderId;
+  final String? paymentId;
+  PaymentSuccess({required this.orderId, required this.paymentId});
 }
 
 final class PaymentError extends EventRegistrationState{

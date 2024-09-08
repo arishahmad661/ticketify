@@ -10,8 +10,8 @@ class EventRegistration{
     return eventRegistrationRepository.eventRegistrationCheck(eventID);
   }
 
-  Future eventRegistration(String eventID){
-    return eventRegistrationRepository.eventRegistration(eventID);
+  Future eventRegistration(String eventID, String? orderId, String? paymentId){
+    return eventRegistrationRepository.eventRegistration(eventID, orderId, paymentId);
   }
 
   Future createOrderID(OrderIDRequest orderIDRequest){

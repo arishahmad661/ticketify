@@ -87,7 +87,7 @@ class _EventPageState extends State<EventPage> {
       }
       if (state is PaymentSuccess) {
         BlocProvider.of<EventRegistrationBloc>(context).add(
-            SubmitRequested(eventID: widget.featuredEvent.eventId)
+            SubmitRequested(eventID: widget.featuredEvent.eventId, paymentId: state.paymentId, orderID: state.orderId)
         );
       }
     }, builder: (context, state) {

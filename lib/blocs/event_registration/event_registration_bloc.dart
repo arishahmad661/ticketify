@@ -25,7 +25,7 @@ class EventRegistrationBloc extends Bloc<EventRegistrationEvent, EventRegistrati
   Future<void> submitRequested(SubmitRequested event, Emitter<EventRegistrationState> emit,) async {
     emit(LoadingState());
     try {
-      final ApiResponse data = await eventRegistration.eventRegistration(event.eventID);
+      final ApiResponse data = await eventRegistration.eventRegistration(event.eventID, event.orderID, event.paymentId);
       if(data.code == 200){
         emit(SubmitSuccessful(qrData: jsonEncode(data.data)));
       }else{
@@ -126,7 +126,7 @@ class EventRegistrationBloc extends Bloc<EventRegistrationEvent, EventRegistrati
     final ApiResponse response = await eventRegistration.eventRegistrationRepository.verifyPayment(paymentSuccessResponseModel);
 
     if(response.code == 200){
-      emit(PaymentSuccess());
+      emit(PaymentSuccess(orderId: event.response.orderId, paymentId: event.response.paymentId));
     }else{
       add(PaymentErrorEvent(response: response));
     }
