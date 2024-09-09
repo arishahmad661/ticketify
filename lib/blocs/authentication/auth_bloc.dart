@@ -71,16 +71,24 @@ class AuthBloc extends Bloc<AuthEvent,AuthState>{
       ) async {
     emit(AuthLoading());
     try {
-      if(kIsWeb){
-        FirebaseAuth auth = FirebaseAuth.instance;
-        GoogleAuthProvider authProvider = GoogleAuthProvider();
-        // User? user;
-        final UserCredential userCredential = await auth.signInWithPopup(authProvider);
-        // user = userCredential.user;
-        Storage storage = Storage();
-        storage.storeSignInData(userCredential);
-      }else {
-        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      // if(kIsWeb){
+      //   FirebaseAuth auth = FirebaseAuth.instance;
+      //   GoogleAuthProvider authProvider = GoogleAuthProvider();
+      //   authProvider.addScope("https://www.googleapis.com/auth/calendar.events");
+      //   // User? user;
+      //   final UserCredential userCredential = await auth.signInWithPopup(authProvider);
+      //   // user = userCredential.user;
+      //   Storage storage = Storage();
+      //   storage.storeSignInData(userCredential);
+      // }else {
+      final GoogleSignIn _googleSignIn = GoogleSignIn(
+        scopes: [
+          'email',
+          'https://www.googleapis.com/auth/calendar.events', // Add the required scope here
+        ],
+      );
+
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
         final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
 
@@ -91,8 +99,8 @@ class AuthBloc extends Bloc<AuthEvent,AuthState>{
         UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
 
         Storage _storage = Storage();
-        _storage.storeSignInData(userCredential);
-      }
+        _storage.storeSignInData(userCredential, googleAuth.accessToken, googleAuth.idToken);
+      // }
 
       return emit(GoogleSignInSuccess());
     }catch (e) {

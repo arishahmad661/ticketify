@@ -20,6 +20,7 @@ class EventRegistrationBloc extends Bloc<EventRegistrationEvent, EventRegistrati
     on<PaymentSuccessEvent>(handlePaymentSuccess);
     on<PaymentErrorEvent>(handlePaymentError);
     on<PaymentExternalWallet>(handleExternalWallet);
+    on<AddReminderToCalender>(addReminderToCalender);
   }
 
   Future<void> submitRequested(SubmitRequested event, Emitter<EventRegistrationState> emit,) async {
@@ -37,7 +38,7 @@ class EventRegistrationBloc extends Bloc<EventRegistrationEvent, EventRegistrati
   }
 
   Future<void> registrationCheck(RegistrationCheck event, Emitter<EventRegistrationState> emit,)async {
-    emit(LoadingState());
+    emit(FullPageLoadingState());
     try{
       if (event.eventID.isEmpty || event.eventID == ""){
         emit(SubmitError(e: "Event id not found."));
@@ -142,6 +143,24 @@ class EventRegistrationBloc extends Bloc<EventRegistrationEvent, EventRegistrati
     print("Payment External Wallet: ${event.response}");
     emit(ExternalWallet());
   }
+
+  Future<void> addReminderToCalender(AddReminderToCalender event, Emitter<EventRegistrationState> emit) async {
+    final lastState = event.lastState;
+    emit(LoadingState());
+    try{
+      final ApiResponse data = await eventRegistration.addReminderToCalender(event.featuredEventModel);
+      if(data.code == 200){
+        emit(ReminderToCalenderAdded());
+      }else {
+        emit(ReminderToCalenderFailed());
+      }
+    }catch(e){
+      emit(ReminderToCalenderFailed());
+    } finally{
+      emit(lastState);
+    }
+  }
+
 }
 
 

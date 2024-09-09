@@ -8,7 +8,7 @@ Widget submitButton(FeaturedEventModel eventDetails, BuildContext context) {
     return TextButton(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(
-              const Color.fromARGB(255, 253, 177, 75)),
+              const Color.fromARGB(255,251,88,80)),
           shape: MaterialStateProperty.all(RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10))),
           minimumSize: MaterialStateProperty.all(const Size(160, 50)),
@@ -19,6 +19,6 @@ Widget submitButton(FeaturedEventModel eventDetails, BuildContext context) {
           );
         },
         child: const Text("Register", style: TextStyle(
-            color: Color.fromARGB(255, 87, 33, 72), fontSize: 16),)
+            color: Colors.white, fontSize: 16),)
     );
   }

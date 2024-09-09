@@ -14,7 +14,6 @@ func SetupRouter() *gin.Engine {
 		api.POST("/register-user", handlers.PostRegisterUser)
 		api.POST("/create-order", handlers.PostCreateOrder)
 		api.POST("/verify-payment", handlers.PostPaymentVerification)
-		api.POST("/register-paying-user", handlers.PostRegisterPayingUser)
 	}
 	return r
 }

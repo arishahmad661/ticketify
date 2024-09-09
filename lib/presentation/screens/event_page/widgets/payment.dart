@@ -18,13 +18,13 @@ class Payment extends StatelessWidget {
         );
       }, // Trigger the payment on button press
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 253, 177, 75)),
+        backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255,251,88,80)),
         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
         minimumSize: MaterialStateProperty.all(const Size(160, 50)),
       ),
-      child: const Text(
-        "Pay \$200",
-        style: TextStyle(color: Color.fromARGB(255, 87, 33, 72), fontSize: 16),
+      child: Text(
+        "Pay \$${eventDetails.cost}",
+        style: TextStyle(color: Colors.white, fontSize: 16),
       ),
     );
   }

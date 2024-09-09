@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ticketify/presentation/screens/home_screen/home_screen.dart';
 import '../../../../blocs/authentication/auth_bloc.dart';
 import '../../../../blocs/authentication/auth_event.dart';
 import '../../../../blocs/authentication/auth_state.dart';
-import '../home_page/home_page.dart';
 import '../splash_page/splash_screen.dart';
 
 class SignIN extends StatefulWidget {
@@ -47,19 +47,28 @@ class _SignINState extends State<SignIN> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => const HomePage(),
+            builder: (context) => const HomeScreen(),
           ),
               (route) => false,
         );
       }
       if(state is GoogleSignInSuccess){
+
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => const HomePage(),
+            builder: (context) => const HomeScreen(),
           ),
               (route) => false,
         );
+
+        // Navigator.pushAndRemoveUntil(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => const HomePage(),
+        //   ),
+        //       (route) => false,
+        // );
       }
     },
         builder: (context, state) {

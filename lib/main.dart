@@ -5,7 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:ticketify/blocs/event_registration/event_registration_bloc.dart';
 import 'package:ticketify/domain/usecases/event_registration.dart';
 import 'package:ticketify/domain/usecases/fetch_events.dart';
-import 'package:ticketify/presentation/screens/pages/login_page/sign_in.dart';
+import 'package:ticketify/presentation/screens/login_page/sign_in.dart';
 import 'blocs/authentication/auth_bloc.dart';
 import 'blocs/featured_events/events_bloc.dart';
 import 'firebase_options.dart';

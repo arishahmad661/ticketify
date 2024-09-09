@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:ticketify/data/models/api_response.dart';
 import 'package:http/http.dart' as http;
 import 'package:ticketify/data/models/attendes_model.dart';
+import 'package:ticketify/data/models/featured_events_model.dart';
 import 'package:ticketify/data/models/order_id_request.dart';
 import 'package:ticketify/data/models/payment_success_response_model.dart';
 import 'package:ticketify/storage/storage_client.dart';
@@ -131,4 +132,53 @@ class EventRegistrationDataSource{
       return ApiResponse(data: e);
     }
   }
+
+  Future<ApiResponse> addReminderToCalender(FeaturedEventModel featuredEventModel) async {
+    try{
+      final reminder = {
+        'summary': featuredEventModel.name, // Title of the event
+        'description': featuredEventModel.description, // Description of the event
+        'start': {
+          'dateTime': featuredEventModel.fromTime.toUtc().toIso8601String(),
+          'timeZone': 'Asia/Kolkata',
+        },
+        'end': {
+          'dateTime': featuredEventModel.toTime.toUtc().toIso8601String(),
+          'timeZone': 'Asia/Kolkata',
+        },
+        'reminders': {
+          'useDefault': false,
+          'overrides': [
+            {
+              'method': 'popup', // Popup reminder
+              'minutes': 480, // Reminder 2 hours before the event
+            },
+          ],
+        },
+      };
+
+      final accessToken = await Storage().fetchAccessToken();
+
+      final response = await http.post(
+        Uri.parse('https://www.googleapis.com/calendar/v3/calendars/primary/events'),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(reminder),
+      );
+
+      if (response.statusCode == 200) {
+        print('Event created: ${response.body}');
+        return ApiResponse(code: 200);
+      } else {
+        print('Event created: ${response.body}');
+        return ApiResponse(code: response.statusCode);
+      }
+    }catch(e){
+      return ApiResponse(error: e.toString());
+    }
+  }
+
+
 }

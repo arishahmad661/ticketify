@@ -34,19 +34,20 @@ class _FeaturedEventsState extends State<FeaturedEvents> {
           if (state is EventResponseSuccess) {
             return Column(
               children: [
-                const Text("Featured Events",style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 87, 33, 72),),),
-                const SizedBox(height: 8,),
                 SizedBox(
-                  height: 335,
+                  height: 295,
                   child: ListView.builder(
                     physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: featuredEvents.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      return displayEventCard(
-                        featuredEvent:featuredEvents[index],
-                        context: context
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: displayEventCard(
+                          featuredEvent:featuredEvents[index],
+                          context: context
+                        ),
                       );
                     },
                   ),
@@ -60,7 +61,7 @@ class _FeaturedEventsState extends State<FeaturedEvents> {
           } else if(state is EventResponseFailure){
             return Text(state.e.toString());
         }else{
-            return Container();
+            return Text("Something went wrong.");
           }
         }
     );

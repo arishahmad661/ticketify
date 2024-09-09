@@ -1,3 +1,4 @@
+import 'package:ticketify/data/models/featured_events_model.dart';
 import 'package:ticketify/data/models/order_id_request.dart';
 import 'package:ticketify/data/models/payment_success_response_model.dart';
 
@@ -45,6 +46,14 @@ final class PaymentExternalWallet extends EventRegistrationEvent {
   final response;
   PaymentExternalWallet({required this.response});
 }
+
+final class AddReminderToCalender extends EventRegistrationEvent {
+  final FeaturedEventModel featuredEventModel;
+  final lastState;
+  AddReminderToCalender({required this.featuredEventModel, required this.lastState});
+}
+
+
 
 
 
