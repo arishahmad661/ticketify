@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../host_event_entry_page/host_event_entry_page.dart';
-
 Widget homePageButtonStyle({buttonText, buttonColor, context}) {
   return TextButton(
     onPressed: (){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => HostEventEntryPage(),));
+      // Navigator.push(context, MaterialPageRoute(builder: (context) => HostEventEntryPage(),));
     },
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all(buttonColor),

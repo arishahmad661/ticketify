@@ -1,3 +1,4 @@
+import 'package:ticketify/data/models/featured_events_model.dart';
 import 'package:ticketify/data/models/order_id_request.dart';
 import 'package:ticketify/data/models/payment_success_response_model.dart';
 import 'package:ticketify/domain/repositories/event_registration_repository.dart';
@@ -21,4 +22,10 @@ class EventRegistration{
   Future verifyPayment(PaymentSuccessResponseModel paymentSuccessResponseModel){
     return eventRegistrationRepository.verifyPayment(paymentSuccessResponseModel);
   }
+
+  Future addReminderToCalender(FeaturedEventModel featuredEventModel){
+    return eventRegistrationRepository.addReminderToCalender(featuredEventModel);
+  }
+
+
 }

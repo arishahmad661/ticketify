@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-Image buildNetworkImage({required imgURL}) {
+Image buildNetworkImage({required imgURL, width = 280.0}) {
   return Image.network(
-    imgURL, width: 280,
+    imgURL,
+    width: width,
     frameBuilder: (context, child, frame, wasSynchronouslyLoaded){
       if(frame == null){
         return const Padding(

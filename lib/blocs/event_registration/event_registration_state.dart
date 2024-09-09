@@ -6,6 +6,8 @@ class InitialState extends EventRegistrationState {}
 
 class LoadingState extends EventRegistrationState {}
 
+class FullPageLoadingState extends EventRegistrationState {}
+
 final class SubmitError extends EventRegistrationState {
   String e;
   SubmitError({required this.e});
@@ -39,3 +41,13 @@ final class PaymentError extends EventRegistrationState{
 final class ExternalWallet extends EventRegistrationState{
 
 }
+
+final class ReminderToCalenderAdded extends EventRegistrationState{
+
+}
+
+final class ReminderToCalenderFailed extends EventRegistrationState{
+
+}
+
+

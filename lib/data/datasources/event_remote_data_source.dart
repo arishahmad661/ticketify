@@ -20,7 +20,7 @@ class EventRemoteDataSource {
       final response = await client.get(Uri.parse('${baseURL}/api/v1/featured-events'));
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
-        final events = data.map((json) => FeaturedEventModel.fromJson(json)).toList();
+        final events = data.map((json) => FeaturedEventModel.fromJson(json)).toList().reversed.toList();
         return ApiResponse(data: events, code: 200);
       } else {
         return ApiResponse(error: "Failed to load events" , code: response.statusCode);

@@ -7,6 +7,8 @@ class StorageModel {
     required this.email,
     required this.phoneNumber,
     required this.photoUrl,
+    required this.idToken,
+    required this.accessToken
   });
 
   final String? displayName;
@@ -14,6 +16,8 @@ class StorageModel {
   final String? email;
   final String? phoneNumber;
   final String? photoUrl;
+  final String? idToken;
+  final String? accessToken;
 
   StorageModel copyWith({
     String? displayName,
@@ -21,6 +25,8 @@ class StorageModel {
     String? email,
     String? phoneNumber,
     String? photoUrl,
+    String? idToken,
+    String? accessToken,
   }) {
     return StorageModel(
       displayName: displayName ?? this.displayName,
@@ -28,16 +34,20 @@ class StorageModel {
       email: email ?? this.email,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       photoUrl: photoUrl ?? this.photoUrl,
+      idToken: idToken ?? this.idToken,
+      accessToken: accessToken ?? this.accessToken,
     );
   }
 
-  factory StorageModel.fromJson(UserCredential userCredential){
+  factory StorageModel.fromJson(UserCredential userCredential, String? accessToken, String? idToken){
     return StorageModel(
       displayName: userCredential.user!.displayName.toString(),
       userId: userCredential.user!.uid.toString(),
       email: userCredential.user!.email.toString(),
       phoneNumber: userCredential.user!.phoneNumber.toString(),
       photoUrl: userCredential.user!.photoURL.toString(),
+      idToken: idToken,
+      accessToken: accessToken,
     );
   }
 
@@ -47,10 +57,12 @@ class StorageModel {
     "email": email,
     "phoneNumber": phoneNumber,
     "photoURL": photoUrl,
+    "idToken": idToken,
+    "accessToken": accessToken,
   };
 
   @override
   String toString(){
-    return "$displayName, $userId, $email, $phoneNumber, $photoUrl, ";
+    return "$displayName, $userId, $email, $phoneNumber, $photoUrl, $accessToken, $idToken";
   }
 }
