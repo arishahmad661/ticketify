@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget CommonTextButton({required function, required String buttonText}) {
+Widget CommonTextButton({required Function function, required String buttonText}) {
   return TextButton(
     onPressed: (){
       function();

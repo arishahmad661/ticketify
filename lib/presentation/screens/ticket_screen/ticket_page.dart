@@ -1,15 +1,14 @@
 import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:ticketify/data/models/attendes_model.dart';
 import 'package:ticketify/data/models/featured_events_model.dart';
+import 'package:ticketify/presentation/screens/ticket_screen/function/save_screenshot.dart';
 import 'package:ticketify/presentation/screens/ticket_screen/widget/ticket.dart';
 import 'package:ticketify/presentation/widgets/common_button.dart';
+import 'package:ticketify/presentation/widgets/loading_indicator.dart';
 import '../home_screen/widgets/display_featured_event_card.dart';
+import 'function/get_image.dart';
 
 class TicketPage extends StatelessWidget {
   AttendeesModel attendeesModel;
@@ -23,54 +22,6 @@ class TicketPage extends StatelessWidget {
     String organiserLists = organisersText(featuredEventModel.organisersName);
     ScreenshotController screenshotController = ScreenshotController();
 
-    Future<void> saveScreenshot() async {
-      var status = await Permission.storage.status;
-      if (!status.isGranted) {
-        status = await Permission.storage.request();
-      }
-
-      if (status.isGranted) {
-        Directory? downloadsDirectory;
-
-        // For Android
-        if (Platform.isAndroid) {
-          downloadsDirectory = Directory('/storage/emulated/0/Download');
-        }
-        // For iOS, use the 'getApplicationDocumentsDirectory' as iOS doesn't have a 'Downloads' directory
-        else if (Platform.isIOS) {
-          downloadsDirectory = await getApplicationDocumentsDirectory();
-        }
-
-        if (downloadsDirectory != null) {
-          final path = Directory(downloadsDirectory.path);
-
-          if (!(await path.exists())) {
-            await path.create();
-          }
-
-          String fileName = "${featuredEventModel.name}.jpg";
-          String filePath = '${path.path}/$fileName';
-
-          screenshotController.capture().then((Uint8List? image) {
-            if (image != null) {
-              File imgFile = File(filePath);
-              imgFile.writeAsBytes(image);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Ticket Code saved to $filePath')),
-              );
-            }
-          }).catchError((onError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(onError)),
-            );
-          });
-        }
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Storage permission denied')),
-        );
-      }
-    }
 
     return WillPopScope(
       onWillPop: () async {
@@ -84,14 +35,31 @@ class TicketPage extends StatelessWidget {
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Ticket(screenshotController, context, organiserLists, qrData, attendeesModel, featuredEventModel),
-                SizedBox(height: 40,),
-                CommonTextButton(function: saveScreenshot, buttonText: "Download"),
-              ],
+            child: FutureBuilder(
+              future: getImages(featuredEventModel.images[0], MediaQuery.of(context).size.width - 16 - 16 - 8 - 8 - 16 - 16),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return buildLoadingIndicator();
+                }else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if(snapshot.hasData) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Ticket(screenshotController, context, organiserLists, qrData, attendeesModel, featuredEventModel, snapshot.data),
+                      const SizedBox(height: 40,),
+                      CommonTextButton(
+                          function: (){
+                            saveScreenshot(featuredEventModel.name, screenshotController, context);
+                            },
+                          buttonText: "Download"),
+                    ],
+                  );
+                } else {
+                  return const Text('Something went wrong');
+                }
+              }
             ),
           ),
         ),

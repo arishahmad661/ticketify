@@ -8,7 +8,7 @@ import '../../../widgets/build_network_image.dart';
 import '../../../widgets/separator.dart';
 import '../../../widgets/text.dart';
 
-Widget Ticket(ScreenshotController screenshotController, BuildContext context, String organiserLists, String qrData, AttendeesModel attendeesModel, FeaturedEventModel featuredEventModel) {
+Widget Ticket(ScreenshotController screenshotController, BuildContext context, String organiserLists, String qrData, AttendeesModel attendeesModel, FeaturedEventModel featuredEventModel, image) {
   return Screenshot(
     controller: screenshotController,
     child: Padding(
@@ -27,7 +27,7 @@ Widget Ticket(ScreenshotController screenshotController, BuildContext context, S
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                buildNetworkImage(imgURL: featuredEventModel.images[0], width: MediaQuery.of(context).size.width - 16 - 16 - 8 - 8 - 16 - 16),
+                image,
                 const SizedBox(height: 8,),
                 Text(featuredEventModel.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize:16),),
                 Text(organiserLists,style: const TextStyle(fontSize:14,color: Colors.black),),

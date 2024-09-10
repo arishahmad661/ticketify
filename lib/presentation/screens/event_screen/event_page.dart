@@ -30,7 +30,6 @@ class _EventScreenState extends State<EventScreen> {
   Widget build(BuildContext context) {
     final eventBloc = BlocProvider.of<EventRegistrationBloc>(context);
 
-
     return BlocConsumer<EventRegistrationBloc, EventRegistrationState>(
         listener: (context, state) async {
           if (state is SubmitSuccessful) {
@@ -43,12 +42,16 @@ class _EventScreenState extends State<EventScreen> {
             handlePaymentSuccess(eventBloc, state, widget.featuredEvent);
           }
           if (state is ReminderToCalenderAdded) {
-            showReminderDialog(context, "Reminder set", "Google calender will notify you about the event.");
+            showInfoDialog(context, "Reminder set", "Google calender will notify you about the event.");
           }
           if (state is ReminderToCalenderFailed) {
-            showReminderDialog(context, "Reminder setting failed.", "Can not add the reminder.");
+            showInfoDialog(context, "Reminder setting failed.", "Can not add the reminder.");
+          }
+          if (state is PaymentError) {
+            showInfoDialog(context, "Payment Error", "Payment was not completed. If you think this is an error contact support team.");
           }
           },
+
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(

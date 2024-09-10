@@ -170,11 +170,9 @@ class EventRegistrationDataSource{
       );
 
       if (response.statusCode == 200) {
-        print('Event created: ${response.body}');
         return ApiResponse(code: 200);
       } else {
-        print('Event created: ${response.body}');
-        return ApiResponse(code: response.statusCode);
+        return ApiResponse(code: response.statusCode, error: response.body);
       }
     }catch(e){
       return ApiResponse(error: e.toString());

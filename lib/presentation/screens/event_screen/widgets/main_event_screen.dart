@@ -16,6 +16,7 @@ Widget MainEventScreen(BoxConstraints constraints, BuildContext context, Feature
   final formattedFromDate = DateFormat('EEEE, MMMM d, y').format(featuredEvent.fromTime);
   final formattedFromTime = DateFormat('h:mm a').format(featuredEvent.fromTime);
   final formattedToTime = DateFormat('h:mm a').format(featuredEvent.toTime);
+
   return Padding(
     padding: const EdgeInsets.only(
         right: 8.0, left: 8.0, bottom: 60),

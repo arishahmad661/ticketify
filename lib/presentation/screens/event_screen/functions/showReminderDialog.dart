@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void showReminderDialog(BuildContext context, String title, String content) {
+void showInfoDialog(BuildContext context, String title, String content) {
   showDialog(
     context: context,
     builder: (context) {
