@@ -21,10 +21,11 @@ func PostRegisterUser(c *gin.Context) {
 		return
 	}
 
-	err := user_event_registration.RegisterUser(ctx, client, eventRegistration)
+	docID, err := user_event_registration.RegisterUser(ctx, client, eventRegistration)
 
 	if err != nil {
 		utils.HandleError(c, http.StatusInternalServerError, err)
 	}
+	eventRegistration.Attendee.Id = docID
 	c.IndentedJSON(http.StatusOK, eventRegistration.Attendee)
 }

@@ -6,7 +6,7 @@ import (
 	"server/models"
 )
 
-func RegisterUser(ctx context.Context, client *firestore.Client, eventRegistration models.EventRegistration) error {
+func RegisterUser(ctx context.Context, client *firestore.Client, eventRegistration models.EventRegistration) (string, error) {
 	data := map[string]interface{}{
 		"userEmail":       eventRegistration.Attendee.UserEmail,
 		"userID":          eventRegistration.Attendee.UserID,
@@ -18,9 +18,19 @@ func RegisterUser(ctx context.Context, client *firestore.Client, eventRegistrati
 	}
 	attendeesCollection := client.Collection("featured_events").Doc(eventRegistration.EventID).Collection("attendees")
 
-	_, _, err := attendeesCollection.Add(ctx, data)
+	docRef, _, err := attendeesCollection.Add(ctx, data)
+
 	if err != nil {
-		return err
+		return "", err
 	}
-	return nil
+
+	_, err = docRef.Set(ctx, map[string]interface{}{
+		"id": docRef.ID,
+	}, firestore.MergeAll)
+
+	if err != nil {
+		return "", err
+	}
+
+	return docRef.ID, nil
 }

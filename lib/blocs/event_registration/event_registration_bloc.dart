@@ -28,7 +28,7 @@ class EventRegistrationBloc extends Bloc<EventRegistrationEvent, EventRegistrati
     try {
       final ApiResponse data = await eventRegistration.eventRegistration(event.eventID, event.orderID, event.paymentId);
       if(data.code == 200){
-        emit(SubmitSuccessful(qrData: jsonEncode(data.data)));
+        emit(SubmitSuccessful(attendeesModel: data.data));
       }else{
           emit(SubmitError(e: data.error.toString()));
       }
@@ -45,7 +45,7 @@ class EventRegistrationBloc extends Bloc<EventRegistrationEvent, EventRegistrati
       }
       final ApiResponse data = await eventRegistration.eventRegistrationCheck(event.eventID);
       if(data.code == 200){
-        emit(CheckSuccessful(qrData: data.data.toString()));
+        emit(CheckSuccessful(attendeesModel: data.data));
       } else if(data.code == 404){
         emit(InitialState());
       }else {

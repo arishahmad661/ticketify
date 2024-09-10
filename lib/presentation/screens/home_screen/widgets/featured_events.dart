@@ -4,6 +4,7 @@ import 'package:ticketify/blocs/featured_events/events_bloc.dart';
 import 'package:ticketify/blocs/featured_events/events_event.dart';
 import 'package:ticketify/blocs/featured_events/events_state.dart';
 import 'package:ticketify/data/models/featured_events_model.dart';
+import '../../../widgets/loading_indicator.dart';
 import 'display_featured_event_card.dart';
 
 
@@ -55,9 +56,7 @@ class _FeaturedEventsState extends State<FeaturedEvents> {
               ],
             );
           } else if(state is EventLoading || state is EventInitial) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return buildLoadingIndicator();
           } else if(state is EventResponseFailure){
             return Text(state.e.toString());
         }else{

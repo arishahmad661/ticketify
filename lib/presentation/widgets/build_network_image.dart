@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'loading_indicator.dart';
+
 Image buildNetworkImage({required imgURL, width = 280.0}) {
   return Image.network(
     imgURL,
     width: width,
     frameBuilder: (context, child, frame, wasSynchronouslyLoaded){
       if(frame == null){
-        return const Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Center(child: CircularProgressIndicator(),),
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: buildLoadingIndicator(),
         );
       }
       return child;
@@ -23,7 +25,7 @@ Image buildNetworkImagePoster({required imgURL}) {
     imgURL,
     frameBuilder: (context, child, frame, wasSynchronouslyLoaded){
       if(frame == null){
-        return const Center(child: CircularProgressIndicator(),);
+        return buildLoadingIndicator();
       }
       return child;
     },
