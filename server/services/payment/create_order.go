@@ -2,7 +2,6 @@ package payment
 
 import (
 	"github.com/google/uuid"
-	"github.com/joho/godotenv"
 	"github.com/razorpay/razorpay-go"
 	"os"
 	"server/models"
@@ -23,11 +22,6 @@ func generateReceiptID() string {
 }
 
 func CreateOrder(request models.OrderRequest) (map[string]interface{}, error) {
-
-	err := godotenv.Load(".env")
-	if err != nil {
-		return nil, err
-	}
 	apiKey := os.Getenv("RAZORPAY_API_KEY")
 	apiSecret := os.Getenv("RAZORPAY_API_SECRET")
 	receiptID := generateReceiptID()
