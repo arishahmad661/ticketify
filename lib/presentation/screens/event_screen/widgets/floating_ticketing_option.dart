@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ticketify/blocs/event_registration/event_registration_state.dart';
 import 'package:ticketify/data/models/featured_events_model.dart';
-import 'package:ticketify/presentation/screens/event_page/widgets/registration_button.dart';
+import 'package:ticketify/presentation/screens/event_screen/widgets/registration_button.dart';
+import '../../../widgets/loading_indicator.dart';
 import 'floating_action_for_initial_state.dart';
 
 Widget FloatingTicketingOption(EventRegistrationState state, BuildContext context, FeaturedEventModel featuredEvent) {
@@ -39,12 +40,12 @@ Widget FloatingTicketingOption(EventRegistrationState state, BuildContext contex
                 ),
                 buildDownloadTicketButton(
                     context: context,
-                    qrData: state.qrData,
+                    attendeesModel: state.attendeesModel,
                     eventDetails: featuredEvent),
               ],
             )
           else if (state is SubmitError) Center(child: Text(state.e))
-            else if(state is LoadingState) Center(child: CircularProgressIndicator(),)
+            else if(state is LoadingState) buildLoadingIndicator()
             else FloatingActionForInitialState(featuredEvent, context)
         ],
       ),

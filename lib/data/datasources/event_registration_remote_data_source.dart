@@ -56,13 +56,14 @@ class EventRegistrationDataSource{
       }
 
       AttendeesModel attendeesModel = AttendeesModel(
-        userEmail: userEmail,
-        userId: userID,
-        userName: userName,
-        isCheckedIn: false,
-        userPhoneNumber: userPhoneNumber,
-        orderId: orderId,
-        paymentId: paymentId
+          userEmail: userEmail,
+          userId: userID,
+          userName: userName,
+          isCheckedIn: false,
+          userPhoneNumber: userPhoneNumber,
+          orderId: orderId,
+          paymentId: paymentId,
+          id: ''
       );
 
       final response = await client.post(

@@ -7,6 +7,7 @@ class AttendeesModel {
     required this.userPhoneNumber,
     this.orderId,
     this.paymentId,
+    required this.id
   });
 
   final String userEmail;
@@ -16,6 +17,7 @@ class AttendeesModel {
   final String userPhoneNumber;
   final String? orderId;
   final String? paymentId;
+  final String? id;
 
   AttendeesModel copyWith({
     String? userEmail,
@@ -24,7 +26,8 @@ class AttendeesModel {
     bool? isCheckedIn,
     String? userPhoneNumber,
     String? orderId,
-    String? paymentId
+    String? paymentId,
+    String? id
   }) {
     return AttendeesModel(
         userEmail: userEmail ?? this.userEmail,
@@ -33,7 +36,8 @@ class AttendeesModel {
         isCheckedIn: isCheckedIn ?? this.isCheckedIn,
         userPhoneNumber: userPhoneNumber ?? this.userPhoneNumber,
         orderId: orderId ?? this.orderId,
-        paymentId: paymentId ?? this.paymentId
+        paymentId: paymentId ?? this.paymentId,
+        id: id ?? this.id
     );
   }
 
@@ -46,6 +50,7 @@ class AttendeesModel {
       userPhoneNumber: json["userPhoneNumber"],
       orderId: json["orderId"],
       paymentId: json["paymentId"],
+      id: json['id'],
     );
   }
 
@@ -57,10 +62,11 @@ class AttendeesModel {
     "userPhoneNumber": userPhoneNumber,
     "orderId": orderId,
     "paymentId": paymentId,
+    "id": id,
   };
 
   @override
   String toString(){
-    return "$userEmail, $userId, $userName, $isCheckedIn, $userPhoneNumber, $orderId, $paymentId";
+    return "$userEmail, $userId, $userName, $isCheckedIn, $userPhoneNumber, $orderId, $paymentId, $id";
   }
 }

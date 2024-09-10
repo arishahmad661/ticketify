@@ -1,3 +1,4 @@
+import 'package:ticketify/data/models/attendes_model.dart';
 import 'package:ticketify/data/models/response_order_id.dart';
 
 sealed class EventRegistrationState {}
@@ -14,13 +15,13 @@ final class SubmitError extends EventRegistrationState {
 }
 
 final class SubmitSuccessful extends EventRegistrationState {
-  String qrData;
-  SubmitSuccessful({required this.qrData});
+  AttendeesModel attendeesModel;
+  SubmitSuccessful({required this.attendeesModel});
 }
 
 final class CheckSuccessful extends EventRegistrationState {
-  String qrData;
-  CheckSuccessful({required this.qrData});
+  AttendeesModel attendeesModel;
+  CheckSuccessful({required this.attendeesModel});
 }
 
 final class ResponseOrderID extends EventRegistrationState {

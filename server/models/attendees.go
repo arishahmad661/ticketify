@@ -8,4 +8,5 @@ type Attendees struct {
 	UserPhoneNumber string `json:"userPhoneNumber"`
 	OrderId         string `json:"orderId"`
 	PaymentId       string `json:"paymentId"`
+	Id              string `json:"id"`
 }

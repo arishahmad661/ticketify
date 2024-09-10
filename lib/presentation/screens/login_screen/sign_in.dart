@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketify/presentation/screens/home_screen/home_screen.dart';
+import 'package:ticketify/presentation/widgets/loading_indicator.dart';
 import '../../../../blocs/authentication/auth_bloc.dart';
 import '../../../../blocs/authentication/auth_event.dart';
 import '../../../../blocs/authentication/auth_state.dart';
-import '../splash_page/splash_screen.dart';
+import '../splash_screen/splash_screen.dart';
 
 class SignIN extends StatefulWidget {
   const SignIN({super.key});
@@ -53,7 +54,6 @@ class _SignINState extends State<SignIN> {
         );
       }
       if(state is GoogleSignInSuccess){
-
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -61,19 +61,11 @@ class _SignINState extends State<SignIN> {
           ),
               (route) => false,
         );
-
-        // Navigator.pushAndRemoveUntil(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => const HomePage(),
-        //   ),
-        //       (route) => false,
-        // );
       }
     },
         builder: (context, state) {
           if(state is AuthLoading || state is AuthInitial || state is GoogleSignInSuccess){
-            return const Center(child: CircularProgressIndicator(),);
+            return buildLoadingIndicator();
           }
           else if(state is Unauthorised) {
             return SingleChildScrollView(
