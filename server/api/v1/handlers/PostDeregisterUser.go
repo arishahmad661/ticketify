@@ -10,16 +10,16 @@ import (
 	"server/utils"
 )
 
-func PostRegistrationCheck(c *gin.Context) {
+func PostDeregisterUser(c *gin.Context) {
 	ctx := context.Background()
 	client := config.GetFirestoreClient()
-	var deregisterUser models.DeregisterUser
 
-	if err := c.BindJSON(&deregisterUser); err != nil {
+	var attendeesCheck models.AttendeesCheck
+	if err := c.BindJSON(&attendeesCheck); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err})
 	}
 
-	events, err := user_event_registration.RegistrationCheck(ctx, client, deregisterUser)
+	err := user_event_registration.DeregisterUser(ctx, client, attendeesCheck)
 	if err != nil {
 		if err.Error() == "attendee not found" {
 			utils.HandleError(c, http.StatusNotFound, err)
@@ -29,5 +29,5 @@ func PostRegistrationCheck(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, events)
+	c.JSON(http.StatusOK, gin.H{"message": "User successfully deregistered"})
 }

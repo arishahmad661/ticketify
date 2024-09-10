@@ -39,6 +39,11 @@ class EventRegistrationImpl implements EventRegistrationRepository {
     return eventRegistrationDataSource.addReminderToCalender(featuredEventModel);
   }
 
+  @override
+  Future<ApiResponse> deregisterUser(String eventID) {
+    return eventRegistrationDataSource.deregisterUser(eventID);
+  }
+
 
 
 }

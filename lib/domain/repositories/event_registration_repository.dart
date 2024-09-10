@@ -9,4 +9,5 @@ abstract class EventRegistrationRepository{
   Future<ApiResponse> createOrderID(OrderIDRequest orderIDRequest);
   Future<ApiResponse> verifyPayment(PaymentSuccessResponseModel paymentSuccessResponseModel);
   Future<ApiResponse> addReminderToCalender(FeaturedEventModel featuredEventModel);
+  Future<ApiResponse> deregisterUser(String eventID);
 }

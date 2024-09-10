@@ -53,6 +53,11 @@ final class AddReminderToCalender extends EventRegistrationEvent {
   AddReminderToCalender({required this.featuredEventModel, required this.lastState});
 }
 
+final class DeregisterUser extends EventRegistrationEvent {
+  final String eventId;
+  DeregisterUser({required this.eventId});
+}
+
 
 
 

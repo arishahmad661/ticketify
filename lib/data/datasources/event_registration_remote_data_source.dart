@@ -9,7 +9,6 @@ import 'package:ticketify/storage/storage_client.dart';
 import 'package:ticketify/utils/url.dart';
 
 class EventRegistrationDataSource{
-
   final http.Client client;
   EventRegistrationDataSource(this.client);
 
@@ -88,7 +87,6 @@ class EventRegistrationDataSource{
     }catch(e) {
       return ApiResponse(error: e.toString());
     }
-
   }
 
   Future<ApiResponse> createOrderID(OrderIDRequest orderIDRequest) async {
@@ -168,6 +166,7 @@ class EventRegistrationDataSource{
         },
         body: json.encode(reminder),
       );
+      print(response.body);
 
       if (response.statusCode == 200) {
         return ApiResponse(code: 200);
@@ -179,5 +178,35 @@ class EventRegistrationDataSource{
     }
   }
 
+  Future<ApiResponse> deregisterUser(String eventID) async {
+    try{
+      Storage storage = Storage();
+      String userID = await storage.fetchUserId();
+      if (userID == "" && userID.isEmpty) {
+        return ApiResponse(error: "Clear cache of the application or try logout and then login", code: 404);
+      }
+
+      final response = await client.post(
+          Uri.parse('${baseURL}/api/v1/deregister-user'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, dynamic>{
+            'eventId': eventID,
+            'userId': userID
+          })
+      );
+
+      if(response.statusCode == 200){
+        return ApiResponse(code: 200);
+      } else if(response.statusCode == 404){
+        return ApiResponse(error: "Attendee not found", code: 404);
+      }else{
+        return ApiResponse(error: "Unexpected error occurred.", code: response.statusCode);
+      }
+    }catch(e) {
+      return ApiResponse(error: e.toString());
+    }
+  }
 
 }

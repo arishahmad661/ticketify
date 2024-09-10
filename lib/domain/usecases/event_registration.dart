@@ -27,5 +27,8 @@ class EventRegistration{
     return eventRegistrationRepository.addReminderToCalender(featuredEventModel);
   }
 
+  Future deregisterUser(String eventID){
+    return eventRegistrationRepository.deregisterUser(eventID);
+  }
 
 }

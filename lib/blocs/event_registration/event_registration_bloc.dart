@@ -21,6 +21,7 @@ class EventRegistrationBloc extends Bloc<EventRegistrationEvent, EventRegistrati
     on<PaymentErrorEvent>(handlePaymentError);
     on<PaymentExternalWallet>(handleExternalWallet);
     on<AddReminderToCalender>(addReminderToCalender);
+    on<DeregisterUser>(deregisterUser);
   }
 
   Future<void> submitRequested(SubmitRequested event, Emitter<EventRegistrationState> emit,) async {
@@ -161,6 +162,21 @@ class EventRegistrationBloc extends Bloc<EventRegistrationEvent, EventRegistrati
     }
   }
 
+  Future<void> deregisterUser(DeregisterUser event, Emitter<EventRegistrationState> emit) async{
+    emit(LoadingState());
+    try{
+      final ApiResponse apiResponse = await eventRegistration.deregisterUser(event.eventId);
+      if(apiResponse.code == 200){
+        return emit(InitialState());
+      } else if(apiResponse.code == 404){
+        emit(SubmitError(e: "User not found"));
+      }else{
+        emit(SubmitError(e: "Some error occurred"));
+      }
+    }catch(e){
+      emit(SubmitError(e: e.toString()));
+    }
+  }
 }
 
 

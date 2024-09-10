@@ -57,7 +57,7 @@ class _EventScreenState extends State<EventScreen> {
             appBar: AppBar(
               title: const Text("Event"),
             ),
-            body: buildEventScreenBody(context, state, widget.featuredEvent),
+            body: buildEventScreenBody(eventBloc, context, state, widget.featuredEvent),
           );
         }
         );

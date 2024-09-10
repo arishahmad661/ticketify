@@ -7,9 +7,9 @@ import (
 	"server/models"
 )
 
-func RegistrationCheck(ctx context.Context, client *firestore.Client, attendeesCheck models.AttendeesCheck) (models.Attendees, error) {
-	attendeesCollection := client.Collection("featured_events").Doc(attendeesCheck.EventId).Collection("attendees")
-	query := attendeesCollection.Where("userID", "==", attendeesCheck.UserId).Limit(1)
+func RegistrationCheck(ctx context.Context, client *firestore.Client, deregisterUser models.DeregisterUser) (models.Attendees, error) {
+	attendeesCollection := client.Collection("featured_events").Doc(deregisterUser.EventID).Collection("attendees")
+	query := attendeesCollection.Where("userID", "==", deregisterUser.UserID).Limit(1)
 
 	snapshot, err := query.Documents(ctx).GetAll()
 	var attendees models.Attendees
