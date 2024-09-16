@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ticketify/presentation/screens/home_screen/home_screen.dart';
 import 'package:ticketify/presentation/widgets/loading_indicator.dart';
 import '../../../../blocs/authentication/auth_bloc.dart';
 import '../../../../blocs/authentication/auth_event.dart';
 import '../../../../blocs/authentication/auth_state.dart';
+import '../explore_screen/explore_screen.dart';
 import '../splash_screen/splash_screen.dart';
 
 class SignIN extends StatefulWidget {
@@ -48,7 +48,7 @@ class _SignINState extends State<SignIN> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
+            builder: (context) => const ExploreScreen(),
           ),
               (route) => false,
         );
@@ -57,7 +57,7 @@ class _SignINState extends State<SignIN> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
+            builder: (context) => const ExploreScreen(),
           ),
               (route) => false,
         );

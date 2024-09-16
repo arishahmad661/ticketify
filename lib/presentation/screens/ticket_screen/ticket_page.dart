@@ -7,14 +7,14 @@ import 'package:ticketify/presentation/screens/ticket_screen/function/save_scree
 import 'package:ticketify/presentation/screens/ticket_screen/widget/ticket.dart';
 import 'package:ticketify/presentation/widgets/common_button.dart';
 import 'package:ticketify/presentation/widgets/loading_indicator.dart';
-import '../home_screen/widgets/display_featured_event_card.dart';
+import '../explore_screen/widgets/display_featured_event_card.dart';
 import 'function/get_image.dart';
 
 class TicketPage extends StatelessWidget {
-  AttendeesModel attendeesModel;
-  FeaturedEventModel featuredEventModel;
+  final AttendeesModel attendeesModel;
+  final FeaturedEventModel featuredEventModel;
 
-  TicketPage({super.key, required this.attendeesModel, required this.featuredEventModel});
+  const TicketPage({super.key, required this.attendeesModel, required this.featuredEventModel});
 
   @override
   Widget build(BuildContext context) {
@@ -32,34 +32,36 @@ class TicketPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text("Ticket"),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: FutureBuilder(
-              future: getImages(featuredEventModel.images[0], MediaQuery.of(context).size.width - 16 - 16 - 8 - 8 - 16 - 16),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return buildLoadingIndicator();
-                }else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else if(snapshot.hasData) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Ticket(screenshotController, context, organiserLists, qrData, attendeesModel, featuredEventModel, snapshot.data),
-                      const SizedBox(height: 40,),
-                      CommonTextButton(
-                          function: (){
-                            saveScreenshot(featuredEventModel.name, screenshotController, context);
-                            },
-                          buttonText: "Download"),
-                    ],
-                  );
-                } else {
-                  return const Text('Something went wrong');
+        body: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FutureBuilder(
+                future: getImages(featuredEventModel.images[0], MediaQuery.of(context).size.width - 16 - 16 - 8 - 8 - 16 - 16),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return buildLoadingIndicator();
+                  }else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else if(snapshot.hasData) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Ticket(screenshotController, context, organiserLists, qrData, attendeesModel, featuredEventModel, snapshot.data),
+                        const SizedBox(height: 40,),
+                        CommonTextButton(
+                            function: (){
+                              saveScreenshot(featuredEventModel.name, screenshotController, context);
+                              },
+                            buttonText: "Download"),
+                      ],
+                    );
+                  } else {
+                    return const Text('Something went wrong');
+                  }
                 }
-              }
+              ),
             ),
           ),
         ),

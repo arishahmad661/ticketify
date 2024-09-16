@@ -16,7 +16,7 @@ class FeaturedEvents extends StatefulWidget {
 }
 
 class _FeaturedEventsState extends State<FeaturedEvents> {
-  late List<FeaturedEventModel> featuredEvents;
+  late List<FeaturedEventModel> featuredEvents = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -28,6 +28,7 @@ class _FeaturedEventsState extends State<FeaturedEvents> {
     return  BlocConsumer<FeaturedEventsBloc, FeaturedEventState>(
         listener: (context, state) {
           if(state is EventResponseSuccess){
+
             featuredEvents = state.featuredEvents;
           }
         },

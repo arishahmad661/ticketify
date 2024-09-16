@@ -4,6 +4,8 @@ go 1.22.5
 
 require (
 	cloud.google.com/go/firestore v1.16.0
+	github.com/aws/aws-lambda-go v1.47.0
+	github.com/awslabs/aws-lambda-go-api-proxy v0.16.2
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/uuid v1.6.0
 	github.com/joho/godotenv v1.5.1

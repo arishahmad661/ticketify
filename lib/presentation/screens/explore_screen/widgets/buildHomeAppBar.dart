@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-AppBar buildHomeAppBar() {
+AppBar buildExploreScreenAppBar() {
   return AppBar(
       toolbarHeight: 100,
       title: SearchAnchor(
