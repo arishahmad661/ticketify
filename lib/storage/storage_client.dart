@@ -39,6 +39,12 @@ class Storage{
     return phoneNumber;
   }
 
+  Future<String> fetchUserPhotoURL() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final photoURL = prefs.getString('photoURL') ?? "";
+    return photoURL;
+  }
+
   Future<String> fetchAccessToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final accessToken = prefs.getString('accessToken') ?? "";
