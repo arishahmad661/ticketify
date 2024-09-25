@@ -27,6 +27,9 @@ func main() {
 	}
 	defer config.GetFirestoreClient().Close()
 
+	_ = config.InitializeRedis()
+	defer config.GetRedisClient().Close()
+
 	r := v1.SetupRouter()
 	// Network Access: If you are running the app on an emulator or physical device, localhost might refer to the emulator or device itself. For an emulator, use http://10.0.2.2 instead of localhost to access your local server.
 	// Connectivity: Ensure that your device or emulator has internet access and can reach the server.
@@ -34,7 +37,7 @@ func main() {
 	// Windows: ipconfig
 	// Look for the “IPv4 Address” under your active network connection.
 	// Make sure your server is bound to all network interfaces, not just localhost. You may need to modify the binding address in your server configuration to 0.0.0.0 or your local IP address.
-	if err := r.Run("192.168.179.217:8080"); err != nil {
+	if err := r.Run("192.168.207.218:8080"); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 		return
 	}

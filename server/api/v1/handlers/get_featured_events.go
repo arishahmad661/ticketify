@@ -19,5 +19,5 @@ func GetFeaturedEvents(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, events)
+	c.JSON(http.StatusOK, *events)
 }
