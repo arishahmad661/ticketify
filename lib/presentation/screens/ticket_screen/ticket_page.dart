@@ -7,7 +7,6 @@ import 'package:ticketify/presentation/screens/ticket_screen/function/save_scree
 import 'package:ticketify/presentation/screens/ticket_screen/widget/ticket.dart';
 import 'package:ticketify/presentation/widgets/common_button.dart';
 import 'package:ticketify/presentation/widgets/loading_indicator.dart';
-import '../explore_screen/widgets/display_featured_event_card.dart';
 import 'function/get_image.dart';
 
 class TicketPage extends StatelessWidget {
@@ -19,7 +18,6 @@ class TicketPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String qrData = jsonEncode(attendeesModel);
-    String organiserLists = organisersText(featuredEventModel.organisersName);
     ScreenshotController screenshotController = ScreenshotController();
 
 
@@ -37,7 +35,7 @@ class TicketPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: FutureBuilder(
-                future: getImages(featuredEventModel.images[0], MediaQuery.of(context).size.width - 16 - 16 - 8 - 8 - 16 - 16),
+                future: getImages(featuredEventModel.mainLogo, MediaQuery.of(context).size.width - 16 - 16 - 8 - 8 - 16 - 16),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return buildLoadingIndicator();
@@ -48,7 +46,7 @@ class TicketPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Ticket(screenshotController, context, organiserLists, qrData, attendeesModel, featuredEventModel, snapshot.data),
+                        Ticket(screenshotController, context, featuredEventModel.organisersName, qrData, attendeesModel, featuredEventModel, snapshot.data),
                         const SizedBox(height: 40,),
                         CommonTextButton(
                             function: (){

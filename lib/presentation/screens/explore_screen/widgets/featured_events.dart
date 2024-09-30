@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketify/blocs/featured_events/events_bloc.dart';
 import 'package:ticketify/blocs/featured_events/events_event.dart';
 import 'package:ticketify/blocs/featured_events/events_state.dart';
-import 'package:ticketify/data/models/featured_events_model.dart';
 import '../../../widgets/loading_indicator.dart';
 import 'display_featured_event_card.dart';
 
@@ -16,10 +15,8 @@ class FeaturedEvents extends StatefulWidget {
 }
 
 class _FeaturedEventsState extends State<FeaturedEvents> {
-  late List<FeaturedEventModel> featuredEvents = [];
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<FeaturedEventsBloc>().add(EventRequested());
   }
@@ -27,10 +24,6 @@ class _FeaturedEventsState extends State<FeaturedEvents> {
   Widget build(BuildContext context) {
     return  BlocConsumer<FeaturedEventsBloc, FeaturedEventState>(
         listener: (context, state) {
-          if(state is EventResponseSuccess){
-
-            featuredEvents = state.featuredEvents;
-          }
         },
         builder: (context, state) {
           if (state is EventResponseSuccess) {
@@ -40,14 +33,14 @@ class _FeaturedEventsState extends State<FeaturedEvents> {
                   height: 295,
                   child: ListView.builder(
                     physics: const AlwaysScrollableScrollPhysics(),
-                    itemCount: featuredEvents.length,
+                    itemCount: state.featuredEvents.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: displayEventCard(
-                          featuredEvent:featuredEvents[index],
+                          featuredEvent: state.featuredEvents[index],
                           context: context
                         ),
                       );

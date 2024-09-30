@@ -3,22 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:ticketify/data/models/featured_events_model.dart';
 import 'package:ticketify/presentation/widgets/build_network_image.dart';
 import 'package:ticketify/presentation/widgets/text.dart';
-
 import '../../event_screen/event_page.dart';
 
-String organisersText(List<String> list){
-  String organisersList = "";
-  for(int i = 0; i < list.length; i++){
-    organisersList += list[i];
-    if(i <= list.length - 2){
-      organisersList += ", ";
-    }
-  }
-  return organisersList;
-}
 
 Widget displayEventCard({required FeaturedEventModel featuredEvent, required context}) {
-  String organiserLists = organisersText(featuredEvent.organisersName);
   return InkWell(
     onTap: (){
       Navigator.push(context, MaterialPageRoute(builder: (context) => EventScreen(featuredEvent: featuredEvent,),));
@@ -50,7 +38,7 @@ Widget displayEventCard({required FeaturedEventModel featuredEvent, required con
                       SizedBox(height: 4,),
                       Flexible(child: Text(featuredEvent.name,maxLines: 3, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.bold, fontSize:14),)),
                       SizedBox(height: 4,),
-                      Flexible(child: Text(organiserLists,maxLines: 1, overflow: TextOverflow.ellipsis,style: const TextStyle(fontSize:14,color: Colors.black54),)),
+                      Flexible(child: Text(featuredEvent.organisersName,maxLines: 1, overflow: TextOverflow.ellipsis,style: const TextStyle(fontSize:14,color: Colors.black54),)),
                     ],
                   ),
                 ),

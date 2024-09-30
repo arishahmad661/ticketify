@@ -10,7 +10,7 @@ Widget buildNavigation({required ctrl, required length}) {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           buildNavigationButton(function: (){
-            if (ctrl.page != 0) {
+            if (ctrl.page > 0) {
               ctrl.previousPage(
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.easeInOut,

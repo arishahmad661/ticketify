@@ -19,6 +19,7 @@ func main() {
 	ctx := context.Background()
 	firebaseSecret := os.Getenv("FIREBASE_SECRET")
 	firebaseProjectID := os.Getenv("FIREBASE_PROJECT_ID")
+	address := "localhost:6379"
 
 	_, err = config.InitializeFirestore(ctx, firebaseSecret, firebaseProjectID)
 	if err != nil {
@@ -27,7 +28,7 @@ func main() {
 	}
 	defer config.GetFirestoreClient().Close()
 
-	_ = config.InitializeRedis()
+	_ = config.InitializeRedis(address)
 	defer config.GetRedisClient().Close()
 
 	r := v1.SetupRouter()
@@ -37,7 +38,7 @@ func main() {
 	// Windows: ipconfig
 	// Look for the “IPv4 Address” under your active network connection.
 	// Make sure your server is bound to all network interfaces, not just localhost. You may need to modify the binding address in your server configuration to 0.0.0.0 or your local IP address.
-	if err := r.Run("192.168.207.218:8080"); err != nil {
+	if err := r.Run(":8080"); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 		return
 	}

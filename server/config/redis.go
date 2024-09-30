@@ -4,9 +4,9 @@ import "github.com/redis/go-redis/v9"
 
 var rdb *redis.Client
 
-func InitializeRedis() *redis.Client {
+func InitializeRedis(address string) *redis.Client {
 	rdb = redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
+		Addr:     address,
 		Password: "",
 		DB:       0,
 	})

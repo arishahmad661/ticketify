@@ -7,12 +7,11 @@ class FeaturedEventModel {
   final DateTime fromTime;
   final DateTime toTime, registrationDeadline;
   final bool isOffline;
-  final List<String> images;
   final String location;
   final String mainLogo;
   final String name;
-  final List<String> organisersName;
-  final List<String> organisersPic, organiserDescription;
+  final String organisersName;
+  final String organisersMainLogo, organiserDescription, organiserEmail, organiserMobileNumber, organiserLocation;
 
   FeaturedEventModel({
     required this.registrationDeadline,
@@ -22,13 +21,15 @@ class FeaturedEventModel {
     required this.fromTime,
     required this.toTime,
     required this.isOffline,
-    required this.images,
     required this.location,
     required this.mainLogo,
     required this.name,
     required this.organisersName,
-    required this.organisersPic,
+    required this.organisersMainLogo,
     required this.organiserDescription,
+    required this.organiserEmail,
+    required this.organiserMobileNumber,
+    required this.organiserLocation,
   });
 
   FeaturedEventModel copyWith({
@@ -39,13 +40,17 @@ class FeaturedEventModel {
     DateTime? toTime,
     DateTime? registrationDeadline,
     bool? isOffline,
-    List<String>? images,
+    String? images,
     String? location,
     String? mainLogo,
     String? name,
-    List<String>? organisersName,
-    List<String>? organisersPic,
-    List<String>? organiserDescription,
+    String? organisersName,
+    String? organiserDescription,
+    String? organisersMainLogo,
+    String? organiserEmail,
+    String? organiserMobileNumber,
+    String? organiserLocation,
+
   }) {
     return FeaturedEventModel(
       eventId: eventId ?? this.eventId,
@@ -54,14 +59,16 @@ class FeaturedEventModel {
       fromTime: fromTime ?? this.fromTime,
       toTime: toTime ?? this.toTime,
       isOffline: isOffline ?? this.isOffline,
-      images: images ?? this.images,
       location: location ?? this.location,
       mainLogo: mainLogo ?? this.mainLogo,
       name: name ?? this.name,
       organisersName: organisersName ?? this.organisersName,
-      organisersPic: organisersPic ?? this.organisersPic,
+      organisersMainLogo: organisersMainLogo ?? this.organisersMainLogo,
       organiserDescription: organiserDescription ?? this.organiserDescription,
       registrationDeadline: registrationDeadline ?? this.registrationDeadline,
+      organiserEmail: organiserEmail ?? this.organiserEmail,
+      organiserMobileNumber: organiserMobileNumber ?? this.organiserMobileNumber,
+      organiserLocation: organiserLocation ?? this.organiserLocation,
     );
   }
 
@@ -73,18 +80,20 @@ class FeaturedEventModel {
       fromTime: _parseDate(json['fromTime']),
       toTime: _parseDate(json['toTime']),
       isOffline: json["isOffline"] ?? false,
-      images: json["images"] == null ? [] : List<String>.from(json["images"].map((x) => x)),
       location: json["location"] ?? '',
       mainLogo: json["mainLogo"] ?? '',
       name: json["name"] ?? '',
-      organisersName: json["organisersName"] == null ? [] : List<String>.from(json["organisersName"].map((x) => x)),
-      organisersPic: json["organisersPic"] == null ? [] : List<String>.from(json["organisersPic"].map((x) => x)),
-      organiserDescription: json["organiserDescription"] == null ? [] : List<String>.from(json["organiserDescription"].map((x) => x)),
+      organisersName: json["organisersName"],
+      organisersMainLogo: json["organisersMainLogo"],
+      organiserDescription: json["organiserDescription"],
       registrationDeadline: json['registrationDeadline'] != null
           ? (json['registrationDeadline'] is Timestamp
           ? (json['registrationDeadline'] as Timestamp).toDate()
           : DateTime.parse(json['registrationDeadline']))
-          : DateTime.now(), // Default to current date if missing
+          : DateTime.now(),
+      organiserEmail: json['organiserEmail'],
+      organiserMobileNumber: json['organiserMobileNumber'],
+      organiserLocation: json['organiserLocation'], // Default to current date if missing
     );
   }
 
@@ -95,14 +104,16 @@ class FeaturedEventModel {
     "fromTime": fromTime.toIso8601String(),
     "toTime": toTime.toIso8601String(),
     "isOffline": isOffline,
-    "images": images,
     "location": location,
     "mainLogo": mainLogo,
     "name": name,
     "organisersName": organisersName,
-    "organisersPic": organisersPic,
+    "organisersMainLogo": organisersMainLogo,
     "organiserDescription": organiserDescription,
     "registrationDeadline": Timestamp.fromDate(registrationDeadline),
+    "organiserEmail":organiserEmail,
+    "organiserMobileNumber":organiserMobileNumber,
+    "organiserLocation":organiserLocation,
   };
 
   static DateTime _parseDate(dynamic date) {

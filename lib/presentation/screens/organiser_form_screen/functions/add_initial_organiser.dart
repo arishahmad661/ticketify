@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
-List<Map<String, TextEditingController>> addInitialOrganiser(List<Map<String, TextEditingController>> organisers) {
-  organisers.add({
-    'organiserName': TextEditingController(),
-    'organiserDescription': TextEditingController(),
-    'organiserEmail': TextEditingController(),
-    'organiserMobileNumber': TextEditingController(),
-    'organiserLocation': TextEditingController(),
-    'organiserMainLogo': TextEditingController(),
-  });
+Map<String, TextEditingController> addInitialOrganiser(Map<String, TextEditingController> organisers) {
+  organisers['organiserName'] = TextEditingController();
+  organisers['organiserDescription'] = TextEditingController();
+  organisers['organiserEmail'] = TextEditingController();
+  organisers['organiserMobileNumber'] = TextEditingController();
+  organisers['organiserLocation'] = TextEditingController();
+  organisers['organiserMainLogo'] = TextEditingController();
   return organisers;
 }

@@ -4,7 +4,6 @@ import (
 	"cloud.google.com/go/firestore"
 	"context"
 	"errors"
-	"fmt"
 	"server/config"
 	"server/models"
 )
@@ -15,7 +14,6 @@ func FetchFeaturedEvents(ctx context.Context, client *firestore.Client) (*[]mode
 	if err == nil {
 		return redisData, nil
 	}
-	fmt.Printf("\ndidn't send redis data\n")
 	collection := client.Collection("featured_events")
 	snapshot, err := collection.Documents(ctx).GetAll()
 	if err != nil {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'loading_indicator.dart';
 
-Image buildNetworkImage({required imgURL, width = 280.0}) {
+Image buildNetworkImage({required String imgURL, width = 280.0}) {
   return Image.network(
     imgURL,
     width: width,
@@ -20,7 +20,7 @@ Image buildNetworkImage({required imgURL, width = 280.0}) {
 }
 
 
-Image buildNetworkImagePoster({required imgURL}) {
+Image buildNetworkImagePoster({required String imgURL}) {
   return Image.network(
     imgURL,
     frameBuilder: (context, child, frame, wasSynchronouslyLoaded){

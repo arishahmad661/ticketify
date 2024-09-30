@@ -12,7 +12,6 @@ import 'event_type.dart';
 import 'organisers_details.dart';
 
 Widget MainEventScreen(BoxConstraints constraints, BuildContext context, FeaturedEventModel featuredEvent) {
-
   final formattedFromDate = DateFormat('EEEE, MMMM d, y').format(featuredEvent.fromTime);
   final formattedFromTime = DateFormat('h:mm a').format(featuredEvent.fromTime);
   final formattedToTime = DateFormat('h:mm a').format(featuredEvent.toTime);
@@ -34,7 +33,7 @@ Widget MainEventScreen(BoxConstraints constraints, BuildContext context, Feature
             Align(
               alignment: Alignment.center,
               child: eventImages(
-                  imageURL: featuredEvent.images,
+                  imageURL: featuredEvent.mainLogo,
                   context: context),
             ),
             const SizedBox(

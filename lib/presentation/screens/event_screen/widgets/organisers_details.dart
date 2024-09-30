@@ -6,26 +6,23 @@ import 'package:ticketify/presentation/widgets/text.dart';
 
 Widget organisersDetail({required FeaturedEventModel featuredEvent}) {
   return Column(
-    children: List.generate(featuredEvent.organisersName.length, (index) {
-
-      return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          featuredEvent.organisersPic.isEmpty || featuredEvent.organisersPic[0] == ""?  const Center(child: Icon(Icons.error)):
-          Center(child: buildNetworkImage(imgURL: featuredEvent.organisersPic[index], width: 160.0)),
+          featuredEvent.organisersMainLogo.isEmpty || featuredEvent.organisersMainLogo == ""?  const Center(child: Icon(Icons.error)):
+          Center(child: buildNetworkImage(imgURL: featuredEvent.organisersMainLogo, width: 160.0)),
           Text(
-            featuredEvent.organisersName[index],
+            featuredEvent.organisersName,
             textAlign: TextAlign.center,
             style: textStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
           ),
           ReadMoreText(
-            featuredEvent.organiserDescription[index],
+            featuredEvent.organiserDescription,
             trimMode: TrimMode.Line,
             trimLines: 5,
             colorClickableText: Colors.blue,
             annotations: [
               Annotation(
-                regExp: RegExp(featuredEvent.organisersName[index],),
+                regExp: RegExp(featuredEvent.organisersName,),
                 spanBuilder: ({required text, textStyle}) => TextSpan(text: text, style: textStyle?.copyWith(fontWeight: FontWeight.bold),),
               ),
             ],
@@ -33,7 +30,5 @@ Widget organisersDetail({required FeaturedEventModel featuredEvent}) {
           const SizedBox(height: 16),
         ],
       );
-    }),
-  );
 }
 
