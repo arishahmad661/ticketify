@@ -1,4 +1,4 @@
-package featured_events
+package redis
 
 import (
 	"context"

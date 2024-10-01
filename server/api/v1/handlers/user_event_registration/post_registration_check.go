@@ -1,4 +1,4 @@
-package handlers
+package user_event_registration
 
 import (
 	"context"

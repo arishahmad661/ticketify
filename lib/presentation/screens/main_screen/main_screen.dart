@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketify/presentation/screens/explore_screen/explore_screen.dart';
 import 'package:ticketify/presentation/screens/main_screen/functions/load_user_image.dart';
 import 'package:ticketify/presentation/screens/main_screen/widgets/build_main_screen_app_bar.dart';
+import '../../../storage/storage_client.dart';
 import '../home_screen/home_screen.dart';
+import '../splash_screen/splash_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -13,10 +16,24 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
 
-  static const List<Widget> pages = <Widget>[
+  static List<Widget> pages = <Widget>[
     HomeScreen(),
     ExploreScreen(),
-    Center(child: Text("Notification page is in process."),),
+    Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(height: 500,),
+        Text("Notification page is in process."),
+        InkWell(
+          onTap: () async {
+            FirebaseAuth.instance.signOut();
+            await Storage().deleteData();
+            // Navigator.push(context, MaterialPageRoute(builder: (context) => SplashHomePage(),));
+          },
+            child: Icon(Icons.exit_to_app, color: Colors.black,))
+      ],
+    ),
     Center(child: Text("Message page is in process."),),
   ];
 

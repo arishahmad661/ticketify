@@ -1,13 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:ticketify/data/models/api_response.dart';
+import '../../domain/usecases/user_detials.dart';
 import '../../storage/storage_client.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AuthBloc extends Bloc<AuthEvent,AuthState>{
-  AuthBloc() : super(AuthInitial()){
+  final UserDetails userDetail;
+  AuthBloc(this.userDetail) : super(AuthInitial()){
     on<AuthInitialRequested>(_authInitialRequested);
     on<AuthLoginRequested>(_onLoginRequested);
     on<AuthLogOutRequested>(_onLogOutRequested);
@@ -15,10 +17,7 @@ class AuthBloc extends Bloc<AuthEvent,AuthState>{
     on<SignINPageRequested>(_signINPageRequested);
   }
 
-  void _authInitialRequested(
-      AuthInitialRequested event,
-      Emitter<AuthState> emit,
-      ){
+  void _authInitialRequested(AuthInitialRequested event, Emitter<AuthState> emit,){
     emit(AuthLoading());
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
@@ -28,17 +27,11 @@ class AuthBloc extends Bloc<AuthEvent,AuthState>{
     }
   }
 
-  void _signINPageRequested(
-      SignINPageRequested event,
-      Emitter<AuthState> emit,
-      ){
+  void _signINPageRequested(SignINPageRequested event, Emitter<AuthState> emit,){
     return emit(Unauthorised());
   }
 
-  void _onLoginRequested(
-      AuthLoginRequested event,
-      Emitter<AuthState> emit,
-      ){
+  void _onLoginRequested(AuthLoginRequested event, Emitter<AuthState> emit,){
     emit(AuthLoading());
     try{
       final email = event.email;
@@ -52,23 +45,18 @@ class AuthBloc extends Bloc<AuthEvent,AuthState>{
       return emit(AuthFailure(err: "Failure"));
   }
   }
-  void _onLogOutRequested(
-  AuthLogOutRequested event,
-  Emitter<AuthState> emit
-  ){
+
+  void _onLogOutRequested(AuthLogOutRequested event, Emitter<AuthState> emit){
     emit(AuthLoading());
     try{
       return emit(Unauthorised());
   }
   catch(e){
-      return emit(AuthFailure(err: "Failure"));
+      return emit(AuthFailure(err: e.toString()));
   }
   }
 
-  Future<void> _googleSignInRequested(
-      GoogleSignInRequested event,
-      Emitter<AuthState> emit,
-      ) async {
+  Future<void> _googleSignInRequested(GoogleSignInRequested event, Emitter<AuthState> emit,) async {
     emit(AuthLoading());
     try {
       // if(kIsWeb){
@@ -99,12 +87,17 @@ class AuthBloc extends Bloc<AuthEvent,AuthState>{
         UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
 
         Storage _storage = Storage();
-        _storage.storeSignInData(userCredential, googleAuth.accessToken, googleAuth.idToken);
+        await _storage.storeSignInData(userCredential, googleAuth.accessToken, googleAuth.idToken);
       // }
 
-      return emit(GoogleSignInSuccess());
+      final ApiResponse apiResponse = await userDetail.saveUserDetails();
+      if(apiResponse.code == 200){
+        return emit(GoogleSignInSuccess());
+      }else{
+        return emit(AuthFailure(err: "Fail to save user data"));
+      }
     }catch (e) {
-      return emit(AuthFailure(err: "Failure"));
+      return emit(AuthFailure(err: e.toString()));
     }
   }
 }

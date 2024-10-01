@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:ticketify/blocs/event_registration/event_registration_bloc.dart';
 import 'package:ticketify/domain/usecases/event_registration.dart';
 import 'package:ticketify/domain/usecases/fetch_events.dart';
+import 'package:ticketify/domain/usecases/user_detials.dart';
 import 'package:ticketify/presentation/screens/login_screen/sign_in.dart';
 import 'blocs/authentication/auth_bloc.dart';
 import 'blocs/featured_events/events_bloc.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AuthBloc(),
+          create: (context) => AuthBloc(di.getIt<UserDetails>()),
         ),
         BlocProvider(
           create: (context) => FeaturedEventsBloc(fetchEvents: di.getIt<FetchEvents>()),

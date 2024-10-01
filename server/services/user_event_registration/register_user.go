@@ -7,6 +7,7 @@ import (
 )
 
 func RegisterUser(ctx context.Context, client *firestore.Client, eventRegistration models.EventRegistration) (string, error) {
+
 	data := map[string]interface{}{
 		"userEmail":       eventRegistration.Attendee.UserEmail,
 		"userID":          eventRegistration.Attendee.UserID,
@@ -16,6 +17,7 @@ func RegisterUser(ctx context.Context, client *firestore.Client, eventRegistrati
 		"orderId":         eventRegistration.Attendee.OrderId,
 		"paymentId":       eventRegistration.Attendee.PaymentId,
 	}
+
 	attendeesCollection := client.Collection("featured_events").Doc(eventRegistration.EventID).Collection("attendees")
 
 	docRef, _, err := attendeesCollection.Add(ctx, data)

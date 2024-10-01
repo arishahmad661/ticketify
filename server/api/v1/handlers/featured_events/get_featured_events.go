@@ -1,4 +1,4 @@
-package handlers
+package featured_events
 
 import (
 	"context"

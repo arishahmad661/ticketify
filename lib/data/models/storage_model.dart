@@ -61,6 +61,14 @@ class StorageModel {
     "accessToken": accessToken,
   };
 
+  Map<String, dynamic> toJsonWithoutTokens() => {
+    "displayName": displayName,
+    "userID": userId,
+    "email": email,
+    "phoneNumber": phoneNumber,
+    "photoURL": photoUrl,
+  };
+
   @override
   String toString(){
     return "$displayName, $userId, $email, $phoneNumber, $photoUrl, $accessToken, $idToken";

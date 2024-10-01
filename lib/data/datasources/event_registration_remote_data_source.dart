@@ -208,5 +208,4 @@ class EventRegistrationDataSource{
       return ApiResponse(error: e.toString());
     }
   }
-
 }

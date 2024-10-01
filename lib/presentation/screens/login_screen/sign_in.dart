@@ -34,6 +34,7 @@ class _SignINState extends State<SignIN> {
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state){
+
       if (state is AuthFailure) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -44,6 +45,7 @@ class _SignINState extends State<SignIN> {
         );
       }
 
+      // TODO: remove similar states
       if (state is AuthSuccess) {
         Navigator.pushAndRemoveUntil(
           context,
@@ -108,8 +110,7 @@ class _SignINState extends State<SignIN> {
                     TextButton(
                       onPressed: () {
                         context.read<AuthBloc>().add(
-                            AuthLoginRequested(email: emailController.text,
-                                password: passwordController.text));
+                            AuthLoginRequested(email: emailController.text, password: passwordController.text));
                       },
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(

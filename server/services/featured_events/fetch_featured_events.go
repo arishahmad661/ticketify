@@ -6,11 +6,12 @@ import (
 	"errors"
 	"server/config"
 	"server/models"
+	"server/services/redis"
 )
 
 func FetchFeaturedEvents(ctx context.Context, client *firestore.Client) (*[]models.FeaturedEventModel, error) {
 	rdbClient := config.GetRedisClient()
-	redisData, err := FetchFeaturedEventsFromRedis(ctx, rdbClient)
+	redisData, err := redis.FetchFeaturedEventsFromRedis(ctx, rdbClient)
 	if err == nil {
 		return redisData, nil
 	}
@@ -29,7 +30,7 @@ func FetchFeaturedEvents(ctx context.Context, client *firestore.Client) (*[]mode
 		featuredEvents = append(featuredEvents, event)
 	}
 
-	err = StoreFeaturedEventsInRedis(ctx, rdbClient, &featuredEvents)
+	err = redis.StoreFeaturedEventsInRedis(ctx, rdbClient, &featuredEvents)
 	if err != nil {
 		return nil, err
 	}

@@ -67,4 +67,25 @@ class Storage{
     prefs.remove("accessToken");
     prefs.remove("idToken");
   }
+
+  Future<StorageModel> fetchUserInfo() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final userID = prefs.getString('userID') ??  "";
+    final displayName = prefs.getString('displayName') ?? "";
+    final phoneNumber = prefs.getString('phoneNumber') ?? "";
+    final photoURL = prefs.getString('photoURL') ?? "";
+    final email = prefs.getString('email') ?? "";
+    final accessToken = prefs.getString('accessToken') ?? "";
+    final idToken = prefs.getString('idToken') ?? "";
+
+    StorageModel storageModel = StorageModel(
+        displayName: displayName,
+        userId: userID, email: email,
+        phoneNumber: phoneNumber,
+        photoUrl: photoURL,
+        idToken: idToken,
+        accessToken: accessToken,
+    );
+    return storageModel;
+  }
 }
