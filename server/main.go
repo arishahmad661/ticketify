@@ -38,7 +38,7 @@ func main() {
 	// Windows: ipconfig
 	// Look for the “IPv4 Address” under your active network connection.
 	// Make sure your server is bound to all network interfaces, not just localhost. You may need to modify the binding address in your server configuration to 0.0.0.0 or your local IP address.
-	if err := r.Run(":8080"); err != nil {
+	if err := r.Run("192.168.41.217:8080"); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 		return
 	}

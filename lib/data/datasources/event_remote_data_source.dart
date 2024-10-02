@@ -30,4 +30,24 @@ class EventRemoteDataSource {
     }
 
   }
+
+  Future<ApiResponse> storeEvents(FeaturedEventModel featuredEventModel) async {
+    try{
+      final response = await client.post(
+          Uri.parse("$baseURL/api/v1/store-events"),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(featuredEventModel.toJson())
+      );
+      if(response.statusCode == 200){
+        return ApiResponse(data: response.body, code: 200);
+      }else{
+        return ApiResponse(error: response.body, code: response.statusCode);
+      }
+    }catch(e){
+      print("api call catch");
+      return ApiResponse(error: e.toString());
+    }
+  }
 }

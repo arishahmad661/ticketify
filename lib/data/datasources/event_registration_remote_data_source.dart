@@ -123,11 +123,9 @@ class EventRegistrationDataSource{
       if(response.statusCode == 200){
         return ApiResponse(code: 200, data: response.body);
       }else{
-        print(response.body);
         return ApiResponse(code: response.statusCode, error: response.body);
       }
     }catch(e){
-      print(e.toString());
       return ApiResponse(data: e);
     }
   }
@@ -166,7 +164,6 @@ class EventRegistrationDataSource{
         },
         body: json.encode(reminder),
       );
-      print(response.body);
 
       if (response.statusCode == 200) {
         return ApiResponse(code: 200);

@@ -20,7 +20,7 @@ func SetupRouter() *gin.Engine {
 		api.POST("/create-order", payment.PostCreateOrder)
 		api.POST("/verify-payment", payment.PostPaymentVerification)
 		api.POST("/deregister-user", user_event_registration.PostDeregisterUser)
-		api.POST("/event-detail-submission", event_detail_submission.PostEventDetailSubmission)
+		api.POST("/store-events", event_detail_submission.PostStoreEvents)
 	}
 	return r
 }

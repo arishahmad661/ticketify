@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:ticketify/blocs/event_registration/event_registration_bloc.dart';
+import 'package:ticketify/blocs/submit_organiser_form/form_bloc.dart';
 import 'package:ticketify/domain/usecases/event_registration.dart';
-import 'package:ticketify/domain/usecases/fetch_events.dart';
+import 'package:ticketify/domain/usecases/events.dart';
 import 'package:ticketify/domain/usecases/user_detials.dart';
 import 'package:ticketify/presentation/screens/login_screen/sign_in.dart';
 import 'blocs/authentication/auth_bloc.dart';
@@ -35,6 +36,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => EventRegistrationBloc(eventRegistration: di.getIt<EventRegistration>()),
+        ),
+        BlocProvider(
+          create: (context) => SubmitOrganiserFormBloc(events: di.getIt<FetchEvents>()),
         )
       ],
       child: MaterialApp(

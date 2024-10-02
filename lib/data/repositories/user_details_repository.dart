@@ -8,6 +8,7 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
 
   @override
   Future<ApiResponse> saveUserDetails() async {
+    print("data repository");
     return await userDetailsDataSource.saveUserDetails();
   }
 

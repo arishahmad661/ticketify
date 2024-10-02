@@ -9,7 +9,7 @@ import 'package:ticketify/domain/repositories/event_registration_repository.dart
 import 'package:ticketify/domain/repositories/event_repository.dart';
 import 'package:ticketify/domain/repositories/user_details_repository.dart';
 import 'package:ticketify/domain/usecases/event_registration.dart';
-import 'package:ticketify/domain/usecases/fetch_events.dart';
+import 'package:ticketify/domain/usecases/events.dart';
 import 'package:http/http.dart' as http;
 import 'package:ticketify/domain/usecases/user_detials.dart';
 

@@ -30,6 +30,7 @@ func PostPaymentVerification(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&verifyPayment); err != nil {
 		utils.HandleError(c, http.StatusBadRequest, errors.New("invalid request payload"))
+		return
 	}
 	err := payment.VerifyPayment(verifyPayment)
 

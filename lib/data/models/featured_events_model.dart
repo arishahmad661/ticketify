@@ -110,7 +110,7 @@ class FeaturedEventModel {
     "organisersName": organisersName,
     "organisersMainLogo": organisersMainLogo,
     "organiserDescription": organiserDescription,
-    "registrationDeadline": Timestamp.fromDate(registrationDeadline),
+    "registrationDeadline": fromTime.toIso8601String(),
     "organiserEmail":organiserEmail,
     "organiserMobileNumber":organiserMobileNumber,
     "organiserLocation":organiserLocation,

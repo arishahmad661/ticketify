@@ -15,12 +15,14 @@ func PostStoreUserDetails(c *gin.Context) {
 	var userDetails models.UserDetails
 	if err := c.ShouldBindJSON(&userDetails); err != nil {
 		utils.HandleError(c, http.StatusInternalServerError, err)
+		return
 	}
 	client := config.GetFirestoreClient()
 
 	err := user_details.StoreUserDetails(ctx, client, &userDetails)
 	if err != nil {
 		utils.HandleError(c, http.StatusInternalServerError, err)
+		return
 	}
 	c.IndentedJSON(http.StatusOK, gin.H{"message": "user information stored successfully"})
 }

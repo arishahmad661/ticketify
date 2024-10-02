@@ -19,11 +19,10 @@ class _MainScreenState extends State<MainScreen> {
   static List<Widget> pages = <Widget>[
     HomeScreen(),
     ExploreScreen(),
-    Column(
+    Center(child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(height: 500,),
         Text("Notification page is in process."),
         InkWell(
           onTap: () async {
@@ -33,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
           },
             child: Icon(Icons.exit_to_app, color: Colors.black,))
       ],
-    ),
+    ),),
     Center(child: Text("Message page is in process."),),
   ];
 

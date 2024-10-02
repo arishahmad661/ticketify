@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketify/data/models/api_response.dart';
-import 'package:ticketify/domain/usecases/fetch_events.dart';
+import 'package:ticketify/domain/usecases/events.dart';
 import 'events_event.dart';
 import 'events_state.dart';
 
@@ -15,7 +15,7 @@ class FeaturedEventsBloc extends Bloc<FeaturedsEventsEvent, FeaturedEventState>{
       ) async {
     try{
       emit(EventLoading());
-      final ApiResponse apiResponse = await fetchEvents.execute();
+      final ApiResponse apiResponse = await fetchEvents.fetchFeaturedEvents();
       if (apiResponse.code == 200){
         return emit(EventResponseSuccess(featuredEvents: apiResponse.data));
       }else{
