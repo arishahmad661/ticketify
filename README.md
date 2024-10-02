@@ -8,7 +8,8 @@ Ticketify is an event management application designed to streamline the process 
 
 - **Frontend**: Flutter, Bloc
 - **Backend**: Go, Gin
-- **Database**: Firebase, Redis
+- **Database**: Firebase
+- **Caching**: Redis (running in Docker)
 - **Deployment**: AWS EC2
 - **Payment Processing**: Razorpay
 - **API Integration**: Google Calendar API
@@ -29,6 +30,7 @@ To get a local copy up and running, follow these steps:
 
 - Flutter
 - Go
+- - Docker (for running Redis)
 
 ### Installation
 
@@ -45,8 +47,12 @@ To get a local copy up and running, follow these steps:
    ```bash
    cd server
    go mod tidy
-5. Configure environment variables for Firebase and Razorpay.
-6. Run the application:
+5. Run Redis in Docker:
+   Make sure Docker is installed and running. Then execute:
+   ```bash
+   docker run --name ticketify-redis -d -p 6379:6379 redis
+6. Configure environment variables for Firebase and Razorpay.
+7. Run the application:
    1. Start the backend server:
       ```bash
       go run main.go
