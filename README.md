@@ -30,7 +30,7 @@ To get a local copy up and running, follow these steps:
 
 - Flutter
 - Go
-- - Docker (for running Redis)
+- Docker (for running Redis)
 
 ### Installation
 
